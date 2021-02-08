@@ -8,7 +8,6 @@ exports.handlePhoto = async function(photoSizes, msg) {
   //HANDLING ONLY DELNSFW FOR NOW. TODO: refactor later lol
   var dbref = db.ref('chats/'+msg.chat.id+'/isdelnsfw');
   var snapshot = await dbref.once('value');
-  console.log(msg.chat.id);
   if(snapshot.exists()) {
     var val = snapshot.val();
     if(val == 'on') {
@@ -36,13 +35,10 @@ exports.handlePhoto = async function(photoSizes, msg) {
         },
         data : data
       };
-      console.log("gonna check");
       axios(config)
       .then(function (response) {
 //        console.log(JSON.stringify(response.data));
-        console.log(response);
         if(!response.data.success) {
-          console.log(response.data);
           return;
         }
         var nsfw = response.data.results.nsfw_classification;

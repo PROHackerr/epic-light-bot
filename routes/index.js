@@ -3,6 +3,7 @@ var router = express.Router();
 var bodyParser = require('body-parser')
 const axios = require('axios')
 var telehandler = require('../telehandler');
+const BOT_API_KEY = process.env.BOT_API;
 
 router.post('/new-message', async (req, res) => {
   const {message } = req.body;
@@ -55,7 +56,7 @@ router.post('/new-message', async (req, res) => {
   
   axios
     .post(
-      'https://api.telegram.org/bot1194071808:AAEKf6iME7UQMgyN6l1MMhefKPq9P5Wyjck/sendMessage',
+      'https://api.telegram.org/'+BOT_API_KEY+'/sendMessage',
       postbody
     )
     .then(response => {

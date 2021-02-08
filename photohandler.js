@@ -42,7 +42,6 @@ exports.handlePhoto = async function(photoSizes, msg) {
           return;
         }
         var nsfw = response.data.results.nsfw_classification;
-        console.log(nsfw);
         if(nsfw.unsafe_prediction > 85 && nsfw.is_nsfw)
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/deleteMessage',{chat_id: msg.chat.id, message_id: msg.message_id}).catch((e)=>{
               console.log(e);

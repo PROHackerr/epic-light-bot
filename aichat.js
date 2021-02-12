@@ -11,7 +11,9 @@ exports.replyto = async function(msg) {
   var sessionId;
   var t_res = 0;
   if(!snapshot.exists()) {
-  	var response = await axios.post('https://api.intellivoid.net/coffeehouse/v1/lydia/session/create');
+  	var response = await axios.post('https://api.intellivoid.net/coffeehouse/v1/lydia/session/create').catch((err)=>{
+  		console.log(err);
+  	});
   	if(!response.data.success) {
   		console.log(response.data.error);
   		return;
@@ -36,7 +38,9 @@ exports.replyto = async function(msg) {
 		},
 		data : data
 	};
-	var response = await axios(config);
+	var response = await axios(config).catch((err)=>{
+  		console.log(err);
+  	});;
 	if(!response.data.success) {
 		console.log(response.data.error);
 		return;

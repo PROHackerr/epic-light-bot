@@ -1,6 +1,7 @@
 
 const axios = require('axios')
 const photoHandler = require('./photohandler');
+const aichat = require('./aichat');
 var db = require('./db.js').db;
 
 var capturemode = true;
@@ -104,8 +105,8 @@ exports.handleMessage = async (msg) => {
       captureChatData(msg.chat.id);   
   }
 
-//  if(msg.chat.title != 'testgroup') //only test group
-//    return null;
+  if(msg.chat.title != 'testgroup') //only test group
+    return null;
   if(msg.new_chat_members) {
     msg.new_chat_members = msg.new_chat_members.filter( (x)=>!x.is_bot );
     if(msg.new_chat_members.length == 0)
@@ -304,6 +305,15 @@ exports.handleMessage = async (msg) => {
           return "How's your day been so far?";
         }
       }
+    } else if(msg.reply_to_message) {
+        if(msg.reply_to_message.from.username == thisbot.username) { //check if AIchat and then reply
+
+            var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
+            var snapshot = await dbref.once('value');
+            if(snapshot.exists() && snapshot.val() == 'on') {
+                return await aichat.replyto(msg);
+            }
+        }
     }
   } else if(text[0] == cmdprefix) { //means it's a command
     var args = text.split(' ');

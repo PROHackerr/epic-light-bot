@@ -42,7 +42,8 @@ var helpstr = "You can execute commands using the prefix '"+cmdprefix+"' for thi
               "\n<b>firstmsg</b> - To reply to the first message of a user in a group."+
               "\n\t<b>!setfirstmsg &lt;some message&gt;</b> - customize the message in firstmsg service"+
               "\n<b>hilight</b> - (default: on)This service when enabled makes Light say \"Hi x! I'm Light!\" whenever someone types \"I'm x\""+
-              "\n<b>delnsfw</b> - (default: off)This service when enabled deletes NSFW images using the CoffeeHouse API";
+              "\n<b>delnsfw</b> - (default: off)This service when enabled deletes NSFW images using the CoffeeHouse API"+
+              "\n<b>aichat</b> - (default: off)This service when enabled makes Light bot chat with a user when a message by Light is replied to using the CoffeeHouse API";
 
 var startstr = "Hi! I'm Light - a fun bot to hang out with. Type \n"+cmdprefix+"help\n for a list of commands available\nand add me in a group so I can make new friends!\n";
 
@@ -403,6 +404,21 @@ exports.handleMessage = async (msg) => {
         return usage;
       }
       var dbref = db.ref('chats/'+msg.chat.id+'/ishilight');
+      args[1] = args[1].toLowerCase();
+      if(args[1]=='on' || args[1] == 'off') {
+        dbref.set(args[1]);
+      } else {
+        return usage;
+      }
+      return "Done.\n";
+    } else if(cmd=="aichat") {
+      if(!(await isAdminMessage(msg)))
+        return adminpermerror;
+      var usage = "Usage: aichat on/off\nThis command enables or disables Light from aichat mode";
+      if(args.length < 2) {
+        return usage;
+      }
+      var dbref = db.ref('chats/'+msg.chat.id+'/isaichat');
       args[1] = args[1].toLowerCase();
       if(args[1]=='on' || args[1] == 'off') {
         dbref.set(args[1]);

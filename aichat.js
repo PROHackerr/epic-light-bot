@@ -6,7 +6,7 @@ const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
 
 exports.replyto = async function(msg) {
 
-  var dbref = db.ref('chats/'+msg.chat.id+'/aichat/'+msg.chat.id+'/user/'+msg.from.id);
+  var dbref = db.ref('chats/'+msg.chat.id+'/aichat/user/'+msg.from.id);
   var snapshot = await dbref.once('value');
   var sessionId;
   var t_res = 0;

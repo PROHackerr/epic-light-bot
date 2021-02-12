@@ -106,8 +106,8 @@ exports.handleMessage = async (msg) => {
       captureChatData(msg.chat.id);   
   }
 
-  if(msg.chat.title != 'testgroup') //only test group
-    return null;
+  //if(msg.chat.title != 'testgroup') //only test group
+  //  return null;
   if(msg.new_chat_members) {
     msg.new_chat_members = msg.new_chat_members.filter( (x)=>!x.is_bot );
     if(msg.new_chat_members.length == 0)
@@ -412,6 +412,7 @@ exports.handleMessage = async (msg) => {
       }
       return "Done.\n";
     } else if(cmd=="aichat") {
+    	return "disabled temporarily";
       if(!(await isAdminMessage(msg)))
         return adminpermerror;
       var usage = "Usage: aichat on/off\nThis command enables or disables Light from aichat mode";

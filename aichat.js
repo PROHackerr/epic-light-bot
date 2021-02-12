@@ -61,6 +61,10 @@ exports.replyto = async function(msg) {
   		return;
   	}
 	var output = response.data.results.output;
+	var p = Math.random();
+	if(p < 0.1) {
+		output += "\n\nYou can make Light stop chatting automatically by typing:\n<b>!aichat off</b>";
+	}
 	
 	return output;
 }

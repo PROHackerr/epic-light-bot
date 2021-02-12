@@ -172,7 +172,7 @@ exports.handleMessage = async (msg) => {
     }
   }
   else if(msg.reply_to_message || (msg.chat.type == 'private'&& msg.chat.id != light_id)) {
-    if(msg.chat.type == 'private' || msg.reply_to_message.from.username == thisbot.username) { //message sent to bot. send to light.
+    if(msg.chat.type == 'private' || msg.reply_to_message.from.username == thisbot.username) {//message sent to bot. send to light.
         var postbody = {chat_id: light_id};
         if(msg.chat.type == 'supergroup' || msg.chat.type == 'channel') {
         var msglink = 't.me/c/'+msg.chat.id.toString().slice(4)+'/'+msg.message_id;

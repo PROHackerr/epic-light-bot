@@ -60,7 +60,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
         console.log("ugh")
       });
     }
-    return res;
+    return t_res;
   }
 }
 function getBase64(url) {

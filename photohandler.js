@@ -8,6 +8,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
   //HANDLING ONLY DELNSFW FOR NOW. TODO: refactor later lol
   var dbref = db.ref('chats/'+msg.chat.id+'/isdelnsfw');
   var snapshot = await dbref.once('value');
+  var t_res = 0;
   if(snapshot.exists()) {
     var val = snapshot.val();
     if(val == 'on') {
@@ -50,6 +51,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/kickChatMember',{chat_id: msg.chat.id, user_id: msg.from.id}).catch((e)=>{
             console.log(e);
           })
+          t_res = "Banning <a href='tg://user?id="+msg.from.id+"'>"+(msg.from.first_name?msg.from.first_name:"")+"</a>"
 
         }
       })
@@ -58,6 +60,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
         console.log("ugh")
       });
     }
+    return res;
   }
 }
 function getBase64(url) {

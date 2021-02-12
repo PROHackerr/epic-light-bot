@@ -60,8 +60,11 @@ exports.handlePhoto = async function(photoSizes, msg) {
 
         }
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(function (e) {
+          		if(e.response.data)
+          			console.log(e.response.data)
+          		else
+              		console.log(e);
         console.log("ugh")
       });
     }

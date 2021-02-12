@@ -11,7 +11,18 @@ exports.replyto = async function(msg) {
   var sessionId;
   var t_res = 0;
   if(!snapshot.exists()) {
-  	var response = await axios.post('https://api.intellivoid.net/coffeehouse/v1/lydia/session/create').catch((err)=>{
+	var data = new FormData();
+	data.append('access_key', ch_accesskey);
+	
+	var config = {
+		method: 'post',
+		url: 'https://api.intellivoid.net/coffeehouse/v1/lydia/session/create',
+		headers: { 
+		...data.getHeaders()
+		},
+		data : data
+	};
+	var response = await axios(config).catch((err)=>{
   		if(err.response)
   			console.log(err.response.data);
   		else console.log(err);

@@ -18,7 +18,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
 
       var response = await axios.post("https://api.telegram.org/"+BOT_API_TOKEN+"/getFile",{file_id: file_id});
       var file = response.data.result;   
-      if(!(file_path.endsWith("jpg") || file_path.endsWith("png"))) //don't handle files except png and jpg
+      if(!(file.file_path.endsWith("jpg") || file.file_path.endsWith("png"))) //don't handle files except png and jpg
       	return;
     //  console.log(file);
       var imagedata = await getBase64('https://api.telegram.org/file/'+BOT_API_TOKEN+'/'+file.file_path);

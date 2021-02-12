@@ -14,7 +14,7 @@ exports.replyto = async function(msg) {
   	var response = await axios.post('https://api.intellivoid.net/coffeehouse/v1/lydia/session/create').catch((err)=>{
   		if(err.response)
   			console.log(err.response.data);
-  		console.log(err);
+  		else console.log(err);
   	});
   	if(!response) {
   		console.log("ugh");
@@ -43,7 +43,7 @@ exports.replyto = async function(msg) {
 	var response = await axios(config).catch((err)=>{
   		if(err.response)
   			console.log(err.response.data);
-  		console.log(err);
+  		else console.log(err);
 	});
   	if(!response) {
   		console.log("ugh");

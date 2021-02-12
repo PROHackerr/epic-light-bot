@@ -47,7 +47,10 @@ exports.handlePhoto = async function(photoSizes, msg) {
         var nsfw = response.data.results.nsfw_classification;
         if(nsfw.unsafe_prediction > 85 && nsfw.is_nsfw) { //delete the message and ban
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/deleteMessage',{chat_id: msg.chat.id, message_id: msg.message_id}).catch((e)=>{
-              console.log(e);
+          		if(e.response.data)
+          			console.log(e.response.data)
+          		else
+              		console.log(e);
             });
 
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/kickChatMember',{chat_id: msg.chat.id, user_id: msg.from.id}).catch((e)=>{

@@ -42,7 +42,7 @@ exports.replyto = async function(msg) {
   	sessionId = response.data.results.session_id;
     expires = response.data.results.expires;
   	var dbref = db.ref('chats/'+msg.chat.id+'/aichat/user/'+msg.from.id);
-  	dbref.set({sessionId: sessionId, expires: expires});
+  	dbref.set({sessionId: sessionId, expires: expires*1000});
   }
   
 	var data = new FormData();

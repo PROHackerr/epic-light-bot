@@ -8,22 +8,29 @@ exports.replyto = async function(msg) {
 
   var dbref = db.ref('chats/'+msg.chat.id+'/aichat/user/'+msg.from.id);
   var snapshot = await dbref.once('value');
-  var sessionId;
+  var sessionId, expires;
   var t_res = 0;
-  if(!snapshot.exists()) {
-	var data = new FormData();
-	data.append('access_key', ch_accesskey);
+  var createnew = false;
+  if(snapshot.exists()) {
+  	sessionId = snapshot.val().sessionId;
+    expires = snapshot.val().expires;
+  }
+  var now = new Date();
+  if(!expires || new Date(expires) <= now) {
+    
+	  var data = new FormData();
+  	data.append('access_key', ch_accesskey);
 	
-	var config = {
-		method: 'post',
-		url: 'https://api.intellivoid.net/coffeehouse/v1/lydia/session/create',
-		headers: { 
-		...data.getHeaders()
-		},
-		data : data
-	};
-	var response = await axios(config).catch((err)=>{
-  		if(err.response)
+  	var config = {
+	  	method: 'post',
+		  url: 'https://api.intellivoid.net/coffeehouse/v1/lydia/session/create',
+  		headers: { 
+  		...data.getHeaders()
+  		},
+  		data : data
+  	};
+	  var response = await axios(config).catch((err)=>{
+    	if(err.response)
   			console.log(err.response.data);
   		else console.log(err);
   	});
@@ -32,10 +39,9 @@ exports.replyto = async function(msg) {
   		return;
   	}
   	sessionId = response.data.results.session_id;
+    expires = response.data.results.expires;
   	var dbref = db.ref('chats/'+msg.chat.id+'/aichat/user/'+msg.from.id);
-  	dbref.set({sessionId: sessionId});
-  } else {
-  	sessionId = snapshot.val().sessionId;
+  	dbref.set({sessionId: sessionIdi, expires: expires});
   }
   
 	var data = new FormData();

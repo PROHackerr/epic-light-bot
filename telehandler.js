@@ -311,7 +311,7 @@ exports.handleMessage = async (msg) => {
 
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');
-            if(snapshot.exists() && snapshot.val() == 'on') {
+            if(snapshot.exists() && snapshot.val() != 'off') { //default is on
                 return await aichat.replyto(msg);
             }
         }

@@ -12,7 +12,6 @@ exports.replyto = async function(msg) {
   var t_res = 0;
   var createnew = false;
   if(snapshot.exists()) {
-    console.log(snapshot.val());
   	sessionId = snapshot.val().sessionId;
     expires = snapshot.val().expires;
   }

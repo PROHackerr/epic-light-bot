@@ -412,7 +412,7 @@ exports.handleMessage = async (msg) => {
       }
       return "Done.\n";
     } else if(cmd=="aichat") {
-    	return "disabled temporarily";
+    	//return "disabled temporarily";
       if(!(await isAdminMessage(msg)))
         return adminpermerror;
       var usage = "Usage: aichat on/off\nThis command enables or disables Light from aichat mode";

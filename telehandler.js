@@ -43,7 +43,7 @@ var helpstr = "You can execute commands using the prefix '"+cmdprefix+"' for thi
               "\n\t<b>!setfirstmsg &lt;some message&gt;</b> - customize the message in firstmsg service"+
               "\n<b>hilight</b> - (default: on)This service when enabled makes Light say \"Hi x! I'm Light!\" whenever someone types \"I'm x\""+
               "\n<b>delnsfw</b> - (default: off)This service when enabled deletes NSFW images using the CoffeeHouse API"+
-              "\n<b>aichat</b> - (default: off)This service when enabled makes Light bot chat with a user when a message by Light is replied to using the CoffeeHouse API";
+              "\n<b>aichat</b> - (default: on)This service when enabled makes Light bot chat with a user when a message by Light is replied to using the CoffeeHouse API";
 
 var startstr = "Hi! I'm Light - a fun bot to hang out with. Type \n"+cmdprefix+"help\n for a list of commands available\nand add me in a group so I can make new friends!\n";
 
@@ -311,7 +311,7 @@ exports.handleMessage = async (msg) => {
 
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');
-            if(snapshot.exists() && snapshot.val() != 'off') { //default is on
+            if( snapshot.val() != 'off') { //default is on
                 return await aichat.replyto(msg);
             }
         }

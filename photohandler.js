@@ -57,7 +57,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
             console.log(e);
           })
           //Send a message instead
-          var message = "Banning <a href='tg://user?id="+msg.from.id+"'>"+(msg.from.first_name?msg.from.first_name:"")+"</a>";
+          var message = "NSFW image detected. Banning <a href='tg://user?id="+msg.from.id+"'>"+(msg.from.first_name?msg.from.first_name:"")+"</a>";
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
           	{
           		chat_id: msg.chat.id,

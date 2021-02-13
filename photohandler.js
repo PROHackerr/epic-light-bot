@@ -56,7 +56,20 @@ exports.handlePhoto = async function(photoSizes, msg) {
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/kickChatMember',{chat_id: msg.chat.id, user_id: msg.from.id}).catch((e)=>{
             console.log(e);
           })
-          t_res = "Banning <a href='tg://user?id="+msg.from.id+"'>"+(msg.from.first_name?msg.from.first_name:"")+"</a>"
+          //Send a message instead
+          var message = "Banning <a href='tg://user?id="+msg.from.id+"'>"+(msg.from.first_name?msg.from.first_name:"")+"</a>";
+          axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
+          	{
+          		chat_id: msg.chat.id,
+          		text: message,
+          		parse_mode: 'html',
+        		disable_web_page_preview: true,
+        	}).catch((e)=>{
+          		if(e.response.data)
+          			console.log(e.response.data)
+          		else
+              		console.log(e);
+            });
 
         }
       })
@@ -68,7 +81,6 @@ exports.handlePhoto = async function(photoSizes, msg) {
         console.log("ugh")
       });
     }
-    return t_res;
   }
 }
 function getBase64(url) {

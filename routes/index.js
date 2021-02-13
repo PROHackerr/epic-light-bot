@@ -23,9 +23,8 @@ router.post('/new-message', async (req, res) => {
   }
   
   if(message.photo) {
-    var resp = await telehandler.handlePhoto(message.photo, message);
-    if(!resp)
-        return res.end();
+    await telehandler.handlePhoto(message.photo, message);
+    return res.end();
   }
 
 

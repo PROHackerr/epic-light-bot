@@ -307,7 +307,7 @@ exports.handleMessage = async (msg) => {
         }
       }
     } else if(msg.reply_to_message) {
-        if(msg.reply_to_message.from.username == thisbot.username) { //check if AIchat and then reply
+        if(msg.reply_to_message.from.username == thisbot.username || msg.chat.type == "private") { //check if AIchat and then reply
 
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');

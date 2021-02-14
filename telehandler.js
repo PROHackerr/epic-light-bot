@@ -239,11 +239,9 @@ exports.handleMessage = async (msg) => {
       if(snapshot.exists() && snapshot.val() == "on") {
         var dbref = db.ref('chats/'+msg.chat.id+'/langblocker/data');
         if(snapshot.exists()) {
-          console.log("hehe"+msg.text);
           var whitelist = snapshot.val().whitelist;
           var langs = snapshot.val().languages;
           langblocker.filtermsg(msg, langs, whitelist);
-          console.log("huhu"+msg.text);
         }
       }
     }

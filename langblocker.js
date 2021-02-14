@@ -7,11 +7,13 @@ const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
 /*TODO:
 * blocks languages not in langs array and not in whitelist
 * whitelist object will have two arrays - users and words and for certain users certain words
+* whitelist is optional, langs is required
 * The message is deleted and the user is muted for 1 hour or something or maybe just report to admins
 * TODO: add generalization too
 */
 exports.filtermsg = async function(msg, langs, whitelist) {
-
+  console.log("lagnblock checking. ");
+  console.log(langs, whitelist);
     if(whitelist) {
       if( whitelist.users && whitelist.users.includes(msg.from.id) )
         return;
@@ -26,6 +28,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
     }
 	  var data = new FormData();
   	data.append('access_key', ch_accesskey);
+  	data.append('input', msg.text);
 	
   	var config = {
 	  	method: 'post',
@@ -41,7 +44,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   		else console.log(err);
   	});
   	if(!response) {
-  		console.log("ugh");
+  		console.log("ughlangbloc");
   		return;
   	}
   	var dlang = response.data.results.language_detection.language;

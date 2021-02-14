@@ -276,6 +276,7 @@ exports.handleMessage = async (msg) => {
         }
       }
     }
+    var islightreply =(msg.reply_to_message && msg.reply_to_message.from.username == this.bot.username);
     if(text == "/start")
      return startstr;
     else if((/who.+ad+ed.+me/i).test(text))
@@ -292,13 +293,13 @@ exports.handleMessage = async (msg) => {
       var noun = capgrp[2];
       if(noun != "sad" && noun != "depressed" && noun != "depress")
         return "Hi "+noun+"!\n I'm Light.";
-    } else if((/^(hi+|he+y+|he+l+o+)(\W+|$)/i).test(text)) {
-      if(msg.reply_to_message) {
-        if(msg.reply_to_message.from.username == thisbot.username) {
+    } else if( islightreply && (/^(hi+|he+y+|he+l+o+)(\W+|$)/i).test(text)) {
+      //if(msg.reply_to_message) {
+      //  if(msg.reply_to_message.from.username == thisbot.username) {
           return "How's your day been so far?";
-        }
-      }
-    } else if(msg.chat.type == "private" || (msg.text.indexOf(thisbot.username) != -1) || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
+       // }
+      //}
+    } else if(msg.chat.type == "private" || (msg.text.indexOf(thisbot.username) != -1) || islightreply ) {
             //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
             //console.log(msg.from.username+" chatlog "+msg.text);
 

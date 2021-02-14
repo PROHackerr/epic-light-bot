@@ -330,15 +330,14 @@ exports.handleMessage = async (msg) => {
           return "How's your day been so far?";
         }
       }
-    } else if(msg.reply_to_message || msg.chat.type == "private" || msg.text.indexOf(thisbot.username) != -1 ) {
-        if(msg.chat.type == "private" || msg.reply_to_message.from.username == thisbot.username) { //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
+    } else if(msg.chat.type == "private" || msg.text.indexOf(thisbot.username) != -1 || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
+            //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
 
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');
             if( snapshot.val() != 'off' || msg.chat.type == "private") { //default is on
                 return await aichat.replyto(msg);
             }
-        }
     }
   } else if(text[0] == cmdprefix) { //means it's a command
     var args = text.split(' ');

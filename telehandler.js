@@ -241,6 +241,7 @@ exports.handleMessage = async (msg) => {
         if(snapshot.exists()) {
           var whitelist = snapshot.val().whitelist;
           var langs = snapshot.val().languages;
+          console.log(whitelist, langs, snapshot.val());
           langblocker.filtermsg(msg, langs, whitelist);
         }
       }

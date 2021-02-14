@@ -51,26 +51,29 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   	var dlang = response.data.results.language_detection.language;
   	var preds = response.data.results.language_detection.predictions
   	var dprob = preds[dlang];
+  	console.log(preds);
   	if(dprob < tol || msg.text.split(" ").length < 3) //not a good prediction or number of words too few so stop
   	  return;
   	  
-  	if(langs.allowed)
-    for(var i=0;i<langs.allowed.length;i++) {
-      if(preds[langs.allowed[i]] > tol) { //allow it
-        return;
+  	if(langs.allowed) {
+      for(var i=0;i<langs.allowed.length;i++) {
+        if(preds[langs.allowed[i]] && preds[langs.allowed[i]] > tol) { //allow it
+          return;
+        }
       }
     }
+    else if(langs.banned) {
     
-    var toban = false;
-    if(langs.banned)
-    for(var i=0;i<langs.banned.length;i++) {
-      if(preds[langs.banned[i]] > tol) {
-        toban = true;
-        break;
+      var toban = false;
+      for(var i=0;i<langs.banned.length;i++) {
+        if(preds[langs.banned[i]] && preds[langs.banned[i]] > tol) {
+          toban = true;
+          break;
+        }
       }
+      if(!toban)
+        return;
     }
-    if(!toban)
-      return;
   
     //BAN or WARN or whatever
     var message = "Detected language that's not allowed in this chat: "+dlang+". @admin";

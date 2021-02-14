@@ -276,7 +276,7 @@ exports.handleMessage = async (msg) => {
         }
       }
     }
-    var islightreply =(msg.reply_to_message && msg.reply_to_message.from.username == this.bot.username);
+    var islightreply =(msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username);
     if(text == "/start")
      return startstr;
     else if((/who.+ad+ed.+me/i).test(text))

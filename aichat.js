@@ -35,7 +35,7 @@ exports.replyto = async function(msg) {
   		else console.log(err);
   	});
   	if(!response) {
-  		console.log("ugh");
+  		console.log("ughaichatcreat");
   		return;
   	}
   	sessionId = response.data.results.session_id;
@@ -63,7 +63,7 @@ exports.replyto = async function(msg) {
   		else console.log(err);
 	});
   	if(!response) {
-  		console.log("ugh");
+  		console.log("ughaichatthink");
   		return;
   	}
 	var output = response.data.results.output;

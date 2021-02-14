@@ -47,7 +47,9 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   	}
   	var dlang = response.data.results.language_detection.language;
   //	var preds = response.data.results.language_detection.predictions
-  //	var dprob = preds[dlang];
+  	var dprob = preds[dlang];
+  	if(dprob < 50) //not a good prediction so stop
+  	  return;
     if( (langs.banned && langs.banned.includes(dlang)) || (langs.allowed && !langs.allowed.includes(dlang)) ) {
       //dlang is not in allowed or is in banned
       //now send a message to TODO: report to admins

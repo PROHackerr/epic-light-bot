@@ -276,7 +276,6 @@ exports.handleMessage = async (msg) => {
         }
       }
     }
-    console.log(msg.text);
     if(text == "/start")
      return startstr;
     else if((/who.+ad+ed.+me/i).test(text))

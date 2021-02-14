@@ -330,12 +330,12 @@ exports.handleMessage = async (msg) => {
           return "How's your day been so far?";
         }
       }
-    } else if(msg.reply_to_message) {
-        if(msg.reply_to_message.from.username == thisbot.username || msg.chat.type == "private") { //check if AIchat and then reply
+    } else if(msg.reply_to_message || msg.chat.type == "private" || msg.text.indexOf(thisbot.username) != -1 ) {
+        if(msg.chat.type == "private" || msg.reply_to_message.from.username == thisbot.username) { //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
 
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');
-            if( snapshot.val() != 'off') { //default is on
+            if( snapshot.val() != 'off' || msg.chat.type == "private") { //default is on
                 return await aichat.replyto(msg);
             }
         }

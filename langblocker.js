@@ -46,7 +46,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   		return;
   	}
   	var dlang = response.data.results.language_detection.language;
-  //	var preds = response.data.results.language_detection.predictions
+  	var preds = response.data.results.language_detection.predictions
   	var dprob = preds[dlang];
   	if(dprob < 50) //not a good prediction so stop
   	  return;

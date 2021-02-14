@@ -279,9 +279,9 @@ exports.handleMessage = async (msg) => {
     var islightreply =(msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username);
     if(text == "/start")
      return startstr;
-    else if((/who.+ad+ed.+me/i).test(text))
+    else if(!islightreply && (/who.+ad+ed.+me/i).test(text))
       return "Maybe I did ❤️. Say hi! or join in a random conversation. Follow the rules and remember to have fun. :D";
-    else if(capgrp=text.match(/^(i m|i’m|i iz|i is|im|i'm|i am|m|am) (\w+)\W*$/ui)) {
+    else if(!islightreply && (capgrp=text.match(/^(i m|i’m|i iz|i is|im|i'm|i am|m|am) (\w+)\W*$/ui))) {
       //check hilightmsg service
       var dbref = db.ref('chats/'+msg.chat.id+'/ishilight');
       var snapshot = await dbref.once('value');

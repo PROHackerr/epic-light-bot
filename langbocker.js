@@ -44,7 +44,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   		else console.log(err);
   	});
   	if(!response) {
-  		console.log("ugh");
+  		console.log("ughlangbloc");
   		return;
   	}
   	var dlang = response.data.results.language_detection.language;

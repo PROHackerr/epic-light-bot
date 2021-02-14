@@ -176,21 +176,8 @@ exports.handleMessage = async (msg) => {
   else if(msg.reply_to_message || (msg.chat.type == 'private'&& msg.chat.id != light_id)) {
     if(msg.chat.type == 'private' || msg.reply_to_message.from.username == thisbot.username) {//message sent to bot. send to light.
     
-        //if message is not a command then invoke ai reply or langblocker
+        //TODO: if message is not a command then invoke ai reply maybe
         
-        //langblocker
-        if(msg.chat.type != 'private') {
-          var dbref = db.ref('chats/'+msg.chat.id+'/islangblocker');
-          var snapshot = await dbref.once('value');
-          if(snapshot.exists() && snapshot.val() == "on") {
-            var dbref = db.ref('chats/'+msg.chat.id+'/langblocker/data');
-            if(snapshot.exists()) {
-              var whitelist = snapshot.val().whitelist;
-              var langs = snapshot.val().languages;
-              langblocker.filtermsg(msg, langs, whitelist);
-            }
-          }
-        }
         
         //Send the user's message to light
         var postbody = {chat_id: light_id};
@@ -244,6 +231,21 @@ exports.handleMessage = async (msg) => {
 
   var capgrp;
   if(text[0]!=cmdprefix) {
+  
+    //langblocker
+    if(msg.chat.type != 'private') {
+      var dbref = db.ref('chats/'+msg.chat.id+'/islangblocker');
+      var snapshot = await dbref.once('value');
+      if(snapshot.exists() && snapshot.val() == "on") {
+        var dbref = db.ref('chats/'+msg.chat.id+'/langblocker/data');
+        if(snapshot.exists()) {
+          var whitelist = snapshot.val().whitelist;
+          var langs = snapshot.val().languages;
+          langblocker.filtermsg(msg, langs, whitelist);
+        }
+      }
+    }
+  
     //check firstmsg on first
     var dbref = db.ref('chats/'+msg.chat.id+'/isfirstmsg');
     var snapshot = await dbref.once('value');

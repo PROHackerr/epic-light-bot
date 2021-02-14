@@ -2,6 +2,7 @@
 const axios = require('axios')
 const photoHandler = require('./photohandler');
 const aichat = require('./aichat');
+const langblocker = require('./langblocker');
 var db = require('./db.js').db;
 
 var capturemode = true;
@@ -43,7 +44,8 @@ var helpstr = "You can execute commands using the prefix '"+cmdprefix+"' for thi
               "\n\t<b>!setfirstmsg &lt;some message&gt;</b> - customize the message in firstmsg service"+
               "\n<b>hilight</b> - (default: on)This service when enabled makes Light say \"Hi x! I'm Light!\" whenever someone types \"I'm x\""+
               "\n<b>delnsfw</b> - (default: off)This service when enabled deletes NSFW images using the CoffeeHouse API"+
-              "\n<b>aichat</b> - (default: on)This service when enabled makes Light bot chat with a user when a message by Light is replied to using the CoffeeHouse API";
+              "\n<b>aichat</b> - (default: on)This service when enabled makes Light bot chat with a user when a message by Light is replied to using the CoffeeHouse API"+
+              "\n<b>langblocker</b> - (default: off)[WIP]This service when enabled makes Light bot delete/warn users talking in a language different than that allowed";
 
 var startstr = "Hi! I'm Light - a fun bot to hang out with. Type \n"+cmdprefix+"help\n for a list of commands available\nand add me in a group so I can make new friends!\n";
 
@@ -173,6 +175,24 @@ exports.handleMessage = async (msg) => {
   }
   else if(msg.reply_to_message || (msg.chat.type == 'private'&& msg.chat.id != light_id)) {
     if(msg.chat.type == 'private' || msg.reply_to_message.from.username == thisbot.username) {//message sent to bot. send to light.
+    
+        //if message is not a command then invoke ai reply or langblocker
+        
+        //langblocker
+        if(msg.chat.type != 'private') {
+          var dbref = db.ref('chats/'+msg.chat.id+'/islangblocker');
+          var snapshot = await dbref.once('value');
+          if(snapshot.exists() && snapshot.val() == "on") {
+            var dbref = db.ref('chats/'+msg.chat.id+'/langblocker/data');
+            if(snapshot.exists()) {
+              var whitelist = snapshot.val().whitelist;
+              var langs = snapshot.val().languages;
+              langblocker.filtermsg(msg, langs, whitelist);
+            }
+          }
+        }
+        
+        //Send the user's message to light
         var postbody = {chat_id: light_id};
         if(msg.chat.type == 'supergroup' || msg.chat.type == 'channel') {
         var msglink = 't.me/c/'+msg.chat.id.toString().slice(4)+'/'+msg.message_id;

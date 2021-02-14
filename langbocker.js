@@ -28,6 +28,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
     }
 	  var data = new FormData();
   	data.append('access_key', ch_accesskey);
+  	data.append('input', msg.text);
 	
   	var config = {
 	  	method: 'post',

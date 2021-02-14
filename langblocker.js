@@ -12,6 +12,9 @@ const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
 * TODO: add generalization too
 */
 exports.filtermsg = async function(msg, langs, whitelist) {
+
+    const tol = 50;
+    
     if(whitelist) {
       if( whitelist.users && whitelist.users.includes(msg.from.id) )
         return;
@@ -48,25 +51,39 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   	var dlang = response.data.results.language_detection.language;
   	var preds = response.data.results.language_detection.predictions
   	var dprob = preds[dlang];
-  	if(dprob < 50) //not a good prediction so stop
+  	if(dprob < tol || msg.text.split(" ").length < 3) //not a good prediction or number of words too few so stop
   	  return;
-    if( (langs.banned && langs.banned.includes(dlang)) || (langs.allowed && !langs.allowed.includes(dlang)) ) {
-      //dlang is not in allowed or is in banned
-      //now send a message to TODO: report to admins
-      var message = "Detected language that's not allowed in this chat: "+dlang+". @admin";
-      axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
-          	{
-          		chat_id: msg.chat.id,
-          		text: message,
-          		parse_mode: 'html',
-        		disable_web_page_preview: true,
-        	}).catch((e)=>{
-          		if(e.response.data)
-          			console.log(e.response.data)
-          		else
-              		console.log(e);
-            });
-
+  	  
+  	if(langs.allowed)
+    for(var i=0;i<langs.allowed.length;i++) {
+      if(preds[langs.allowed[i]] > tol) { //allow it
+        return;
+      }
     }
-  //}
+    
+    var toban = false;
+    if(langs.banned)
+    for(var i=0;i<langs.banned.length;i++) {
+      if(preds[langs.banned[i]] > tol) {
+        toban = true;
+        break;
+      }
+    }
+    if(!toban)
+      return;
+  
+    //BAN or WARN or whatever
+    var message = "Detected language that's not allowed in this chat: "+dlang+". @admin";
+    axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
+        	{
+        		chat_id: msg.chat.id,
+        		text: message,
+        		parse_mode: 'html',
+      		disable_web_page_preview: true,
+      	}).catch((e)=>{
+        		if(e.response.data)
+        			console.log(e.response.data)
+        		else
+            		console.log(e);
+          });
 }

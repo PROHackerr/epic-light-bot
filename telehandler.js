@@ -292,7 +292,24 @@ exports.handleMessage = async (msg) => {
       var noun = capgrp[2];
       if(noun != "sad" && noun != "depressed" && noun != "depress")
         return "Hi "+noun+"!\n I'm Light.";
-    } else if(text.indexOf('@') != -1) {
+    } else if((/^(hi+|he+y+|he+l+o+)(\W+|$)/i).test(text)) {
+      if(msg.reply_to_message) {
+        if(msg.reply_to_message.from.username == thisbot.username) {
+          return "How's your day been so far?";
+        }
+      }
+    } else if(msg.chat.type == "private" || (msg.text.indexOf(thisbot.username) != -1) || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
+            //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
+            //console.log(msg.from.username+" chatlog "+msg.text);
+
+            var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
+            var snapshot = await dbref.once('value');
+            if( snapshot.val() != 'off' || msg.chat.type == "private") { //default is on
+                return await aichat.replyto(msg);
+            }
+    }
+    
+    if(text.indexOf('@') != -1) {
       var custmentions = await getMentionsFromCustomMentions(text, msg.chat.id);
       if(custmentions.length > 0) {
         var i = 0;
@@ -324,22 +341,8 @@ exports.handleMessage = async (msg) => {
         }
         return "<b>"+getUserFullName(msg.from)+"</b>: "+text+"\n\n"+custmentions.join(' ')+"\n(contact the admin of the chat if you want your name removed from this list)";
       }
-    } else if((/^(hi+|he+y+|he+l+o+)(\W+|$)/i).test(text)) {
-      if(msg.reply_to_message) {
-        if(msg.reply_to_message.from.username == thisbot.username) {
-          return "How's your day been so far?";
-        }
-      }
-    } else if(msg.chat.type == "private" || (msg.text.indexOf(thisbot.username) != -1) || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
-            //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
-            //console.log(msg.from.username+" chatlog "+msg.text);
-
-            var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
-            var snapshot = await dbref.once('value');
-            if( snapshot.val() != 'off' || msg.chat.type == "private") { //default is on
-                return await aichat.replyto(msg);
-            }
     }
+    
   } else if(text[0] == cmdprefix) { //means it's a command
     var args = text.split(' ');
     handleQuotesInArgs(args);

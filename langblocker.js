@@ -48,7 +48,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   	var dlang = response.data.results.language_detection.language;
   //	var preds = response.data.results.language_detection.predictions
   //	var dprob = preds[dlang];
-    if( (lang.banned && lang.banned.includes(dlang)) || (lang.allowed && !lang.allowed.includes(dlang)) ) {
+    if( (langs.banned && langs.banned.includes(dlang)) || (langs.allowed && !langs.allowed.includes(dlang)) ) {
       //dlang is not in allowed or is in banned
       //now send a message to TODO: report to admins
       var message = "Detected language that's not allowed in this chat: "+dlang+". @admin";

@@ -39,13 +39,18 @@ exports.handlePhoto = async function(photoSizes, msg) {
         data : data
       };
       axios(config)
-      .then(function (response) {
+      .then(async function (response) {
 //        console.log(JSON.stringify(response.data));
         if(!response.data.success) {
           return;
         }
         var nsfw = response.data.results.nsfw_classification;
         if(nsfw.unsafe_prediction > 85 && nsfw.is_nsfw) { //delete the message and ban
+          //check if poster was admin first
+          var dbref = db.ref('chats/'+msg.chat.id+'/admins');
+          var snapshot = await dbref.once('value');
+          if(snapshot.exists() && snapshot.val().includes(msg.from.id)) //stop if the message was sent by an admin
+            return;
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/deleteMessage',{chat_id: msg.chat.id, message_id: msg.message_id}).catch((e)=>{
           		if(e.response.data)
           			console.log(e.response.data)

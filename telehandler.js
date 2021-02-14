@@ -332,6 +332,7 @@ exports.handleMessage = async (msg) => {
       }
     } else if(msg.chat.type == "private" || msg.text.indexOf(thisbot.username) != -1 || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
             //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
+            console.log(msg.from.username+" chatlog "+msg.text);
 
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');

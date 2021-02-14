@@ -12,8 +12,6 @@ const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
 * TODO: add generalization too
 */
 exports.filtermsg = async function(msg, langs, whitelist) {
-  console.log("lagnblock checking. ");
-  console.log(langs, whitelist);
     if(whitelist) {
       if( whitelist.users && whitelist.users.includes(msg.from.id) )
         return;

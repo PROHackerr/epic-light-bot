@@ -276,6 +276,7 @@ exports.handleMessage = async (msg) => {
         }
       }
     }
+    console.log(msg.text);
     if(text == "/start")
      return startstr;
     else if((/who.+ad+ed.+me/i).test(text))
@@ -330,7 +331,7 @@ exports.handleMessage = async (msg) => {
           return "How's your day been so far?";
         }
       }
-    } else if(msg.chat.type == "private" || msg.text.indexOf(thisbot.username) != -1 || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
+    } else if(msg.chat.type == "private" || (msg.text.indexOf(thisbot.username) != -1) || (msg.reply_to_message && msg.reply_to_message.from.username == thisbot.username)) {
             //check if AIchat and then reply. TODO: make everything faster lol.. everything too slow
             //console.log(msg.from.username+" chatlog "+msg.text);
 

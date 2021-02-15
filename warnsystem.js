@@ -40,6 +40,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 			}
 			message += "Reasons:\n"
 			message += warnlist.map(({reason},i)=>(i+1)+": "+reason).join("\n");
+			message += "\n"+warnlist.length+": "+reason;
 			helpers.sendMessage(chat.id, message);
 			return;
 		}

@@ -939,7 +939,7 @@ exports.handleMessage = async (msg) => {
     } else if(cmd == "addlang") {
       if(!(await isAdminMessage(msg)))
         return adminpermerror;
-      if(args.length < 3)
+      if(args.length < 2)
         return "usage: addlang <i>langcode</i>\nlangcode is the language code.";
       //TODO: check if API supports langcode
       var langcode = args[1];

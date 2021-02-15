@@ -49,7 +49,7 @@ helpers = {
 
     //API call to tg
     callMethod: function(mname, options, cb) {
-      var url = "https://api.telegram.org/bot"+config.BOT_TOKEN+"/"+mname;
+      var url = "https://api.telegram.org/"+config.BOT_TOKEN+"/"+mname;
       axios.post(url, options).then(function(res) {
         if(cb)
           cb(null, res);

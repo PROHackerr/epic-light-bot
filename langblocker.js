@@ -14,7 +14,7 @@ const warnsystem = require("./warnsystem")
 */
 exports.filtermsg = async function(msg, langs, whitelist) {
 
-    const tol = 50;
+    const tol = 20;
     //TODO: find a way to ignore admins
     if(whitelist) {
       if( whitelist.users && whitelist.users.includes(msg.from.id) )

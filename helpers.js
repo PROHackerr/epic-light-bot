@@ -55,7 +55,8 @@ helpers = {
           cb(null, res);
       }).catch(function(err) {
         console.log(err);
-        cb(err, null);
+        if(cb)
+        	cb(err, null);
       });
     },
 

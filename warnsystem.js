@@ -21,5 +21,6 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 	dbref.set(warnlist);
 	
 	//send message about the currect warn with reason
+	helpers.sendMessage(chat.id, reason);
 }
 

@@ -940,7 +940,7 @@ exports.handleMessage = async (msg) => {
       if(!(await isAdminMessage(msg)))
         return adminpermerror;
       if(args.length < 2)
-        return "usage: addlang <i>langcode</i>\nlangcode is the language code.";
+        return "usage: addlang <i>langcode</i>\nlangcode is the language code.\nUse this command to add a language to allowlist.(banlist will be removed if it exists)";
       //TODO: check if API supports langcode
       var langcode = args[1];
       //TODO: validation for langcode
@@ -959,7 +959,7 @@ exports.handleMessage = async (msg) => {
       if(!(await isAdminMessage(msg)))
         return adminpermerror;
       if(args.length < 2)
-        return "usage: dellang <i>langcode</i>\nlangcode is the language code.";
+        return "usage: dellang <i>langcode</i>\nlangcode is the language code.\nUse this command to delete a language in allowlist";
       //TODO: check if API supports langcode
       var langcode = args[1];
       //TODO: validation for langcode
@@ -973,7 +973,47 @@ exports.handleMessage = async (msg) => {
       if (index > -1) {
         langs.splice(index, 1);
       } else
-        return "The language is not in the allow list. If you want to ban a language, use the command <b>!banlang</b>"
+        return "The language is not in the allow list or the allow list doesn't exist. If you want to ban a language, use the command <b>!banlang</b>"
+      dbref.set(langs);
+      return "Done.";
+    } else if(cmd == "banlang") {
+      if(!(await isAdminMessage(msg)))
+        return adminpermerror;
+      if(args.length < 2)
+        return "usage: banlang <i>langcode</i>\nlangcode is the language code.\nUse this command to add a language to banlist.(allowlist will be removed if it exists)";
+      //TODO: check if API supports langcode
+      var langcode = args[1];
+      //TODO: validation for langcode
+      var dbref = db.ref("/chats/"+msg.chat.id+"/langblocker/data/languages/banned");
+      var snapshot = await dbref.once('value'); //TODO: find a better way than downloading the whole array. maybe use a count?
+      var langs = [];
+      if(snapshot.exists()) {
+        langs = snapshot.val();
+      }
+      if(langs.indexOf(langcode) > -1)
+        return "The language is already in banlist.";
+      langs.push(langcode);
+      dbref.set(langs);
+      return "Done.";
+    } else if(cmd == "unbanlang") {
+      if(!(await isAdminMessage(msg)))
+        return adminpermerror;
+      if(args.length < 2)
+        return "usage: unbanlang <i>langcode</i>\nlangcode is the language code.\nUse this command to delete a language in banlist";
+      //TODO: check if API supports langcode
+      var langcode = args[1];
+      //TODO: validation for langcode
+      var dbref = db.ref("/chats/"+msg.chat.id+"/langblocker/data/languages/banned");
+      var snapshot = await dbref.once('value'); //TODO: find a better way than downloading the whole array. maybe use a count?
+      var langs = [];
+      if(snapshot.exists()) {
+        langs = snapshot.val();
+      }
+      const index = langs.indexOf(langcode);
+      if (index > -1) {
+        langs.splice(index, 1);
+      } else
+        return "The language is not in the ban list or the ban list doesn't exist. This command will erase the allowlist if it exists. If you want to remove a language from the allowlist, use the command <b>!dellang</b>"
       dbref.set(langs);
       return "Done.";
     } else if(cmd == "getchatid") {

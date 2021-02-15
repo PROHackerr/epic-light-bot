@@ -8,8 +8,9 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 	var dbref = db.ref("chats/"+chat.id+"/warns/"+user.id);
 	var snapshot = await dbref.once("value");
 	var nw = 0;
+	var warnlist = []
 	if(snapshot.exists()) {
-		var warnlist = snapshot.val();
+		warnlist = snapshot.val();
 		var nw = warnlist.length; //no of warns
 		if(nw >= 2) {
 			//send message about all warns and do warn3action

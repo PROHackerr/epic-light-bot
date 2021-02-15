@@ -14,8 +14,13 @@ const warnsystem = require("./warnsystem")
 */
 exports.filtermsg = async function(msg, langs, whitelist) {
 
-    const tol = 20;
-    //TODO: find a way to ignore admins
+    const tol = 27;
+    var dbref = db.ref("chats/"+msg.chat.id+"/admins");
+    var snapshot = await dbref.once('value');
+    if(snapshot.exists()) {
+      if(snapshot.val().includes(msg.from.id)) //IGNORES THE ADMINS
+        return;
+    }
     //TODO: maybe play with tolerance a bit to find the correct value
     if(whitelist) {
       if( whitelist.users && whitelist.users.includes(msg.from.id) )

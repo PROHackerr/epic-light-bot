@@ -950,7 +950,30 @@ exports.handleMessage = async (msg) => {
       if(snapshot.exists()) {
         langs = snapshot.val();
       }
+      if(langs.indexOf(langcode) > -1)
+        return "The language is already in allowlist.";
       langs.push(langcode);
+      dbref.set(langs);
+      return "Done.";
+    } else if(cmd == "dellang") {
+      if(!(await isAdminMessage(msg)))
+        return adminpermerror;
+      if(args.length < 2)
+        return "usage: dellang <i>langcode</i>\nlangcode is the language code.";
+      //TODO: check if API supports langcode
+      var langcode = args[1];
+      //TODO: validation for langcode
+      var dbref = db.ref("/chats/"+msg.chat.id+"/langblocker/data/languages/allowed");
+      var snapshot = await dbref.once('value'); //TODO: find a better way than downloading the whole array. maybe use a count?
+      var langs = [];
+      if(snapshot.exists()) {
+        langs = snapshot.val();
+      }
+      const index = langs.indexOf(langcode);
+      if (index > -1) {
+        langs.splice(index, 1);
+      } else
+        return "The language is not in the allow list. If you want to ban a language, use the command <b>!banlang</b>"
       dbref.set(langs);
       return "Done.";
     } else if(cmd == "getchatid") {

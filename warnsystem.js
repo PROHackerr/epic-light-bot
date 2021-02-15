@@ -18,7 +18,19 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 			var method = "";
 			if(!warn3action || warn3action == "mute") { //default is mute
 				message += "muted.";
-				method = "mutecall";
+				var permissions = {
+					can_send_messages: false,
+					can_send_media_messages: false,
+					can_send_polls: false,
+					can_send_other_messages: false,
+					can_add_web_page_previews: false,
+					can_change_info: false,
+					can_invite_users: false,
+					can_pin_messages: false,
+				};
+				var h=3; //mute for 'h' hours
+				var until_date = ((new Date()).getTime()+h*60*60*1000)/1000;
+				helpers.callMethod("restrictChatMember", {chat.id,user.id, permissions, until_date});
 			} else if(warn3action == "ban") {
 				message += "banned";
 				method = "kickchatmemeber";

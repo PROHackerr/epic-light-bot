@@ -16,6 +16,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
 
     const tol = 20;
     //TODO: find a way to ignore admins
+    //TODO: maybe play with tolerance a bit to find the correct value
     if(whitelist) {
       if( whitelist.users && whitelist.users.includes(msg.from.id) )
         return;
@@ -78,6 +79,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
     }
   
     //BAN or WARN or whatever
+    //TODO: maybe also delete the original message?
     var message = "Detected language that's not allowed in this chat: "+dlang+". @admin";
     /*axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
         	{

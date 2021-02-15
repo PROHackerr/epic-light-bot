@@ -1,6 +1,7 @@
 const axios = require('axios');
-const db = require('./db.js').db
-const BOT_API_TOKEN = process.env.BOT_API;
+const config = require('./config');
+const db = config.db;
+const helpers = require('./helpers')
 const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
 
 exports.addwarn = async function(user, chat, reason, warn3action) {

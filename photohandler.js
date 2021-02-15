@@ -2,6 +2,7 @@ const axios = require('axios');
 const db = require('./db.js').db
 const BOT_API_TOKEN = process.env.BOT_API;
 const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
+const warnsystem = require('./warnsystem');
 
 exports.handlePhoto = async function(photoSizes, msg) {
 
@@ -12,6 +13,14 @@ exports.handlePhoto = async function(photoSizes, msg) {
   if(snapshot.exists()) {
     var val = snapshot.val();
     if(val == 'on') {
+    
+          //check if poster was admin first
+        var dbref = db.ref('chats/'+msg.chat.id+'/admins');
+        var snapshot = await dbref.once('value');
+        if(snapshot.exists() && snapshot.val().includes(msg.from.id)) //stop if the message was sent by an admin
+          return;
+    
+    
       var photo = photoSizes[0];
 
       var file_id = photo.file_id;
@@ -46,11 +55,6 @@ exports.handlePhoto = async function(photoSizes, msg) {
         }
         var nsfw = response.data.results.nsfw_classification;
         if(nsfw.unsafe_prediction > 85 && nsfw.is_nsfw) { //delete the message and ban
-          //check if poster was admin first
-          var dbref = db.ref('chats/'+msg.chat.id+'/admins');
-          var snapshot = await dbref.once('value');
-          if(snapshot.exists() && snapshot.val().includes(msg.from.id)) //stop if the message was sent by an admin
-            return;
           axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/deleteMessage',{chat_id: msg.chat.id, message_id: msg.message_id}).catch((e)=>{
           		if(e.response.data)
           			console.log(e.response.data)
@@ -58,7 +62,9 @@ exports.handlePhoto = async function(photoSizes, msg) {
               		console.log(e);
             });
 
-          axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/kickChatMember',{chat_id: msg.chat.id, user_id: msg.from.id}).catch((e)=>{
+          warnsystem.addwarn(msg.from, msg.chat, "NSFW detected.", "mute"); //TODO: or maybe jus ban?
+          
+          /*axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/kickChatMember',{chat_id: msg.chat.id, user_id: msg.from.id}).catch((e)=>{
             console.log(e);
           })
           //Send a message instead
@@ -74,7 +80,7 @@ exports.handlePhoto = async function(photoSizes, msg) {
           			console.log(e.response.data)
           		else
               		console.log(e);
-            });
+            });*/
 
         }
       })

@@ -52,7 +52,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   	var dlang = response.data.results.language_detection.language;
   	var preds = response.data.results.language_detection.predictions
   	var dprob = preds[dlang];
-  	console.log("Dom lang: "+dlang);
+  	console.log("Dom lang: "+dlang+","+dprob);
   	
   	if(dprob < tol || msg.text.split(" ").length < 3) //not a good prediction or number of words too few so stop
   	  return;

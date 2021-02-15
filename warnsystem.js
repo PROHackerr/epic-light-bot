@@ -13,6 +13,21 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		var nw = warnlist.length; //no of warns
 		if(nw >= 2) {
 			//send message about all warns and do warn3action
+			var message = "User has been ";
+			var method = "";
+			if(!warn3action || warn3action == "mute") { //default is mute
+				message += "muted.";
+				method = "mutecall";
+			} else if(warn3action == "ban") {
+				message += "banned";
+				method = "kickchatmemeber";
+			} else {
+				//Maybe throw exception??
+				return;
+			}
+			message += "Reasons:\n"
+			message += warnlist.map(({reason},i)=>(i+1)+": "+reason).join("\n");
+			helpers.sendMessage(chat.id, message);
 			return;
 		}
 	}

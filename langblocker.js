@@ -3,6 +3,7 @@ const db = require('./db.js').db
 var FormData = require('form-data');
 const BOT_API_TOKEN = process.env.BOT_API;
 const ch_accesskey = process.env.CH_ACCESSKEY; //coffee house access key
+const warnsystem = require("./warnsystem")
 
 /*TODO:
 * blocks languages not in langs array and not in whitelist
@@ -77,7 +78,7 @@ exports.filtermsg = async function(msg, langs, whitelist) {
   
     //BAN or WARN or whatever
     var message = "Detected language that's not allowed in this chat: "+dlang+". @admin";
-    axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
+    /*axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/sendMessage',
         	{
         		chat_id: msg.chat.id,
         		text: message,
@@ -88,5 +89,8 @@ exports.filtermsg = async function(msg, langs, whitelist) {
         			console.log(e.response.data)
         		else
             		console.log(e);
-          });
+          });*/
+	
+	warnsystem.addwarn(msg.from, msg.chat, message, "mute");
+
 }

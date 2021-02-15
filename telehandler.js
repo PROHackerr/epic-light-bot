@@ -936,6 +936,23 @@ exports.handleMessage = async (msg) => {
 
       return "something wrong this is WIP.";
 
+    } else if(cmd == "addlang") {
+      if(!(await isAdminMessage(msg)))
+        return adminpermerror;
+      if(args.length < 3)
+        return "usage: addlang <i>langcode</i>\nlangcode is the language code.";
+      //TODO: check if API supports langcode
+      var langcode = args[1];
+      //TODO: validation for langcode
+      var dbref = db.ref("/chats/"+msg.chat.id+"/langblocker/data/languages/allowed");
+      var snapshot = await dbref.once('value'); //TODO: find a better way than downloading the whole array. maybe use a count?
+      var langs = [];
+      if(snapshot.exists()) {
+        langs = snapshot.val();
+      }
+      langs.push(langcode);
+      dbref.set(langs);
+      return "Done.";
     } else if(cmd == "getchatid") {
         return msg.chat.id;
     } else if(cmd=='random') {

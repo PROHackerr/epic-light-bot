@@ -119,32 +119,44 @@ helpers = {
     			dbref.set({message_id: message_id});
     		});
     		return;
-    	} else if(menuname == "basic") {
-    		var text = "Some basic commands here";
-    		var inlinekeyboard = [
-    			[
-          			{
-            			text: "Fun",
-            			callback_data: "helpmenu,"+chatid+",m"+message_id+",fun"
-          			},
-          			{
-            			text: "Group administration",
-            			callback_data: "helpmenu,"+chatid+",m"+message_id+",groupadmin"
-          			},
-          		],
-    		];
-    		response.text = text;
-    		response.reply_markup = {inline_keyboard:inlinekeyboard};
-    		
-    	} else if(menuname == "fun") {
-    		response.text = "These are just some fun commands!\nReply to a friend's message with one of these commands.\n"
-    						+"\n<b>!give</b> <i>something</i> - Give <i>something</i> to the person you reply"
-    						+"\n<b>!hug</b> <i>message</i> - Hug the person you reply to and optionally show a message"
-    						+"\n<b>!scream</b> <i>message</i> - Scream out the message!";
-    	} else if(menuname == "groupadmin") {
-    		response.text = "You're in pinggroups menu!"
     	} else {
-    		response.text = "You're in an unimplemented zone omg!";
+    		var callbackstr = "helpmenu,"+chatid+",m"+message_id+",";
+    		if(menuname == "basic") {
+    			var text = "Some basic commands here";
+    			var inlinekeyboard = [
+    				[
+          				{
+            				text: "Fun",
+            				callback_data: callbackstr+"fun"
+          				},
+          				{
+            				text: "Group administration",
+            				callback_data: callbackstr+"groupadmin"
+          				},
+          			],
+    			];
+    			response.text = text;
+    			response.reply_markup = {inline_keyboard:inlinekeyboard};
+    			
+    		} else if(menuname == "fun") {
+    			response.text = "These are just some fun commands!\nReply to a friend's message with one of these commands.\n"
+    							+"\n<b>!give</b> <i>something</i> - Give <i>something</i> to the person you reply"
+    							+"\n<b>!hug</b> <i>message</i> - Hug the person you reply to and optionally show a message"
+    							+"\n<b>!scream</b> <i>message</i> - Scream out the message!";
+    			var inlinekeyboard = [
+    				[
+    					{
+    						text: "Back",
+    						callback_data: callbackstr + "basic"
+    					}
+    				],
+    			];
+    			response.reply_markup = {inline_keyboard: inlinekeyboard};
+    		} else if(menuname == "groupadmin") {
+    			response.text = "You're in pinggroups menu!"
+    		} else {
+    			response.text = "You're in an unimplemented zone omg!";
+    		}
     	}
     	
     	return response;

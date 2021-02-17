@@ -68,7 +68,7 @@ exports.replyto = async function(msg) {
   	}
 	var output = response.data.results.output;
 	var p = Math.random();
-	if(p < 0.1) {
+	if(msg.chat.type != "private" && p < 0.01) {
 		output += "\n\nYou can make Light stop chatting automatically by typing:\n<b>!aichat off</b>";
 	}
 	

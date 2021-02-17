@@ -1,6 +1,7 @@
 
 const axios = require('axios');
 const config = require('./config');
+const db = require('./db').db
 
 helpers = {
     getUserFullName: function(user) {

@@ -81,9 +81,9 @@ helpers = {
       this.callMethod("sendMessage", options);
     },
     
-    generateHelpResponse: function(msg, menuname, message_id) {
+    generateHelpResponse: function(chatid, menuname, message_id) {
     
-    	var response = {chat_id: msg.chat.id, parse_mode: "html"};
+    	var response = {chat_id: chatid, parse_mode: "html"};
     	if(menuname == "outermenu") {
     		var text = "This is the help command!";
     		var uid = Math.floor(Math.random()*10000)
@@ -91,7 +91,7 @@ helpers = {
     			[
           			{
             			text: "Basic",
-            			callback_data: "helpmenu,"+msg.chat.id+",u"+uid+",basic"
+            			callback_data: "helpmenu,"+chatid+",u"+uid+",basic"
           			},
           			{
             			text: "Advanced",
@@ -115,7 +115,7 @@ helpers = {
     		this.callMethod("sendMessage",response, function(err, res) {
     			var message_id = res.data.result.message_id;
     			
-    			var dbref = db.ref("helpmenu/"+msg.chat.id+"/"+uid);
+    			var dbref = db.ref("helpmenu/"+chatid+"/"+uid);
     			dbref.set({message_id: message_id});
     		});
     		return;
@@ -125,11 +125,11 @@ helpers = {
     			[
           			{
             			text: "Fun",
-            			callback_data: "helpmenu,"+msg.chat.id+",m"+message_id+",fun"
+            			callback_data: "helpmenu,"+chatid+",m"+message_id+",fun"
           			},
           			{
             			text: "Ping groups",
-            			callback_data: "helpmenu,"+msg.chat.id+",m"+message_id+",pinggroups"
+            			callback_data: "helpmenu,"+chatid+",m"+message_id+",pinggroups"
           			},
           		],
     		];

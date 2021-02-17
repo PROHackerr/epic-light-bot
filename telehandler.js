@@ -117,7 +117,7 @@ exports.handleQuery = async (query) => {
     		message_id = uid;
     	}
     	
-    	var response = helpers.generateHelpResponse();
+    	var response = helpers.generateHelpResponse(chatid, menu, message_id);
     	//var text = "inside basic";
     	response.message_id = message_id;
     	
@@ -381,7 +381,7 @@ exports.handleMessage = async (msg) => {
     if(cmd == "help") {
     	return helpstr;
     } else if(cmd == "fakehelp") { //for checkin help
-    	var response = helpers.generateHelpResponse(msg,"outermenu");
+    	var response = helpers.generateHelpResponse(msg.chat.id,"outermenu");
     	return;
     } else if(cmd=='args') { //for debugging
       return args.join('\n');

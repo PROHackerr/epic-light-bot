@@ -5,6 +5,8 @@ const aichat = require('./aichat');
 const langblocker = require('./langblocker');
 var db = require('./db.js').db;
 var helpers = require('./helpers');
+var groupadmin_commands = require('./groupadmin_commands');
+var commands = groupadmin_commands;
 
 var capturemode = true;
 
@@ -257,6 +259,28 @@ exports.handleMessage = async (msg) => {
   var text = msg.text;
   
 //  if(msg.chat.id != light_id) return;
+
+	var cmdprefixes = ['!','.','/'];
+	if(cmdprefixes.indexOf(text[0]) != -1 && text.length > 1) { //it's a command
+    	var args = text.split(' ');
+    	handleQuotesInArgs(args);
+    	var cmd = args[0].slice(1);
+    	var command = 0;
+		for(var i=0;i<commands.length;i++) {
+			if(commands[i].name == cmd) {
+				command = commands[i];
+				break;
+			}
+		}
+		if(command != 0) {
+			var execStatus = getExecStatus(command, args, msg);
+			if(execStatus.ok) {
+				return command.execute(args, msg);
+			} else {
+				return execStatus.err;
+			}
+		}
+	}
 
   var capgrp;
   if(text[0]!=cmdprefix) {
@@ -1112,6 +1136,16 @@ async function captureChatData(chat_id) {
         dets.username = response.username;
       dets.type = response.type;
       chatref.set(dets);
+}
+
+function getExecStatus(command, args, msg) {
+	var stat = {};
+	if(commad.args_req > args.length-1) {
+		stat.err = "Not enough arguments provided to the command.\nUsage: "+args[0][0]+command.usage;
+	} else if(command.admin_req && !(await isAdminMessage(msg))) {
+		stat.err = adminpermerror;
+	} else stat.ok = true;
+	return stat;
 }
 
 async function getMentionsFromCustomMentions(str, chatid) {

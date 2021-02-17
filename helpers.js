@@ -237,7 +237,7 @@ helpers = {
     			response.text = "<b>Services</b>"
     								+" Select one of the services to find out more about it.";
     			var inlinekeyboard = [];
-    			var servs = services.keys();
+    			var servs = Object.keys(services);
     			var rowlen = 3;
     			var row = [];
     			for(var i=0;i<servs.length;i++) {

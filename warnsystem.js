@@ -16,7 +16,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		var nw = warnlist.length; //no of warns
 		if(nw >= 2) {
 			//send message about all warns and do warn3action
-			var message = "User "+getUserLink(user)+" has been ";
+			var message = "User "+helpers.getUserLink(user)+" has been ";
 			var method = "";
 			if(!warn3action || warn3action == "mute") { //default is mute
 				message += "muted";
@@ -44,6 +44,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 			message += "Reasons:\n";
 			message += warnlist.map(({reason},i)=>(i+1)+": "+reason).join("\n");
 			message += "\n"+(warnlist.length+1)+": "+reason;
+			dbref.set({}); //clear warns
 			helpers.sendMessage(chat.id, message);
 			return;
 		}

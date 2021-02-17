@@ -115,8 +115,10 @@ helpers = {
     		this.callMethod("sendMessage",response, function(err, res) {
     			var message_id = res.data.result.message_id;
     			
-    			var dbref = db.ref("helpmenu/"+chatid+"/"+uid);
-    			dbref.set({message_id: message_id});
+    			var dbref = db.ref("helpmenu/"+chatid+"/");
+    			var setobj = {};
+    			setobj[uid] = {message_id: message_id};
+    			dbref.set(setobj);
     		});
     		return;
     	} else {

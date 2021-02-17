@@ -210,11 +210,20 @@ helpers = {
     				]
     			];
     			response.reply_markup = {inline_keyboard: inlinekeyboard};
-    		} else if(menuname == "service_firstmsg") {
-    			response.text = "<b>First message</b>"
-    								+"\nReplies to the first message of a new user."
+    		} else if(menuname.startsWith("service_") {
+    			var serv = menuname.substring(8);
+    			var services = {
+    				"firstmsg":{
+    					name: "First Message",
+    					text: "Replies to the first message of a new user."
     								+"\n\n<b>!firstmsg on</b> to start the service"
-    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message";
+    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message"
+    				},
+    			};
+    			if(services[serv])
+	    			response.text = "<b>"+services[serv].name+"</b>\n"+services[serv].text;
+	    		else
+	    			response.text = "No such service. That's weird.";
     			var inlinekeyboard = [
     				[
     					{

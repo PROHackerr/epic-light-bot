@@ -210,7 +210,7 @@ helpers = {
     				]
     			];
     			response.reply_markup = {inline_keyboard: inlinekeyboard};
-    		} else if(menuname.startsWith("service_") {
+    		} else if(menuname.startsWith("service_")) {
     			var serv = menuname.substring(8);
     			var services = {
     				"firstmsg":{

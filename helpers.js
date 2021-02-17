@@ -133,7 +133,7 @@ helpers = {
     			};
     	
     	if(menuname == "outermenu") {
-    		var text = "This is the help command!";
+    		var text = "<b>Help</b>\n\nI'm a group management bot with a fun side!\nYou can hug or slap people as well as ban and warn them.\n Click on one of the buttons below to find out more.";
     		var inlinekeyboard = [
     			[
           			{
@@ -176,7 +176,7 @@ helpers = {
     		
     			
     			
-    			var text = "Some basic commands here";
+    			var text = "<b>Basic</b>I have some fun commands like scream, hifi, random! check em out by clicking on fun.\nOr see some basic group administration commands by clicking on the right side button";
     			var inlinekeyboard = [
     				[
           				{
@@ -204,7 +204,8 @@ helpers = {
     							+"\n<b>!hug</b> <i>message</i> - Hug the person you reply to and optionally show a message"
     							+"\n<b>!scream</b> <i>message</i> - Scream out the message!"
     							+"\n<b>!hifi</b> <i>message</i> - Hifi the person you reply to and optionally show a message"
-    							+"\n<b>!slap</b> <i>message</i> - Slap the person you reply to and optionally show a message";
+    							+"\n<b>!slap</b> <i>message</i> - Slap the person you reply to and optionally show a message"
+    							+"\n<b>!random</b> <i>upperlimit</i> <i>lowerlimit</i>- Gives you a random number between upperlimit and lowerlimit (both inclusive)";
     			var inlinekeyboard = [
     				[
     					{
@@ -238,8 +239,8 @@ helpers = {
     	  		];
     	  		response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else if(menuname == "services") {
-    			response.text = "<b>Services</b>"
-    								+" Select one of the services to find out more about it.";
+    			response.text = "<b>Services</b>\n"
+    								+"\nYou can turn on/off a service using !<servicename> on/off\nYou must be an admin to turn on/off a service.\nLight needs to be an admin for some of the services.\nSelect one of the services to find out more about it.";
     			var inlinekeyboard = [];
     			var servs = Object.keys(services);
     			var rowlen = 3;

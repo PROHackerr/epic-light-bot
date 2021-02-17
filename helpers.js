@@ -240,7 +240,7 @@ helpers = {
     	  		response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else if(menuname == "services") {
     			response.text = "<b>Services</b>\n"
-    								+"\nYou can turn on/off a service using !<servicename> on/off\nYou must be an admin to turn on/off a service.\nLight needs to be an admin for some of the services.\nSelect one of the services to find out more about it.";
+    								+"\nYou can turn on/off a service using !servicename on/off\nYou must be an admin to turn on/off a service.\nLight needs to be an admin for some of the services.\nSelect one of the services to find out more about it.";
     			var inlinekeyboard = [];
     			var servs = Object.keys(services);
     			var rowlen = 3;

@@ -81,7 +81,9 @@ helpers = {
       this.callMethod("sendMessage", options);
     },
     
-    generateHelpResponse: function(msg, menuname) {
+    generateHelpResponse: function(msg, menuname, message_id) {
+    
+    	var response = {chat_id: msg.chat.id, parse_mode: "html"};
     	if(menuname == "outermenu") {
     		var text = "This is the help command!";
     		var uid = Math.floor(Math.random()*10000)
@@ -89,7 +91,7 @@ helpers = {
     			[
           			{
             			text: "Basic",
-            			callback_data: "helpmenu,"+msg.chat.id+","+uid+",basic"
+            			callback_data: "helpmenu,"+msg.chat.id+",u"+uid+",basic"
           			},
           			{
             			text: "Advanced",
@@ -107,7 +109,8 @@ helpers = {
           			},
           	]
     		];
-    		var response = {chat_id: msg.chat.id, text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
+    		response.text = text;
+    		response.reply_markup = {inline_keyboard:inlinekeyboard};
     		
     		this.callMethod("sendMessage",response, function(err, res) {
     			var message_id = res.data.result.message_id;
@@ -115,7 +118,29 @@ helpers = {
     			var dbref = db.ref("helpmenu/"+msg.chat.id+"/"+uid);
     			dbref.set({message_id: message_id});
     		});
+    		return;
+    	} else if(menuname == "basic") {
+    		var text = "Some basic commands here";
+    		var inlinekeyboard = [
+    			[
+          			{
+            			text: "Fun",
+            			callback_data: "helpmenu,"+msg.chat.id+",m"+message_id+",fun"
+          			},
+          			{
+            			text: "Ping groups",
+            			callback_data: "helpmenu,"+msg.chat.id+",m"+message_id+",pinggroups"
+          			},
+          		],
+    		];
+    		response.text = text;
+    		response.reply_markup = {inline_keyboard:inlinekeyboard};
+    		
+    	} else if(menuname == "fun") {
+    		response.text = text;
     	}
+    	
+    	return response;
     }
 };
 

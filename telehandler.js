@@ -101,17 +101,27 @@ exports.handleQuery = async (query) => {
     	var uid = q[2];
     	var menu = q[3];
     	
-    	var dbref = db.ref("helpmenu/"+chatid+"/"+uid);
-    	var snapshot = await dbref.once('value');
+    	var message_id;
+    	if(uid[0] == "u") {
+    		uid = uid.substring(1);
+    		var dbref = db.ref("helpmenu/"+chatid+"/"+uid);
+    		var snapshot = await dbref.once('value');
+    		
+    		if(!snapshot.exists())
+    			return;
+    		
+    		message_id = snapshot.val().message_id;
+    		
+    	} else if(uid[0]=="m") {
+    		uid = uid.substring(1);
+    		message_id = uid;
+    	}
     	
-    	if(!snapshot.exists())
-    		return;
+    	var response = helpers.generateHelpResponse();
+    	//var text = "inside basic";
+    	response.message_id = message_id;
     	
-    	var message_id = snapshot.val().message_id;
-    	
-    	var text = "inside basic";
-    	
-    	helpers.callMethod("editMessageText",{chat_id: chatid, message_id: message_id, text: text})
+    	helpers.callMethod("editMessageText",response)
     	
     	;
     }

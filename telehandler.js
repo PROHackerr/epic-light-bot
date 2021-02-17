@@ -351,7 +351,11 @@ exports.handleMessage = async (msg) => {
     handleQuotesInArgs(args);
     var cmd = args[0].slice(1);
     if(cmd == "help") {
-      return helpstr;
+    	return helpstr;
+    } else if(cmd == "fakehelp") { //for checkin help
+    	var response = helpers.generateHelpResponse();
+    	helpers.callMethod("sendMessage",response);
+    	return;
     } else if(cmd=='args') { //for debugging
       return args.join('\n');
     } else if(cmd == "addtodb") {

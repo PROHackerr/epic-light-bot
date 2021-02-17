@@ -78,6 +78,34 @@ helpers = {
       if(reply_to)
         options.reply_to_message_id = reply_to;
       this.callMethod("sendMessage", options);
+    },
+    
+    generateHelpResponse: function() {
+    	var text = "This is the help command!";
+    	var inlinekeyboard = [
+    		[
+          		{
+            		text: "Basic",
+            		callback_data: "replytochat,"+msg.chat.id+","+msg.message_id
+          		},
+          		{
+            		text: "Advanced",
+            		callback_data: "replytochat,"+msg.chat.id+","+msg.message_id
+          		},
+          		{
+            		text: "Services",
+            		callback_data: "replytochat,"+msg.chat.id+","+msg.message_id
+          		},
+          ],
+          [
+          		{
+            		text: "See the code",
+            		url: "https://github.com/maheshbansod/epic-light-bot"
+          		},
+          ]
+    	];
+    	var response = {text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
+    	return response;
     }
 };
 

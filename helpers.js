@@ -104,7 +104,7 @@ helpers = {
           		},
           ]
     	];
-    	var response = {text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
+    	var response = {chat_id: msg.chat.id, text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
     	return response;
     }
 };

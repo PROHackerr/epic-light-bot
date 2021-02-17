@@ -109,9 +109,7 @@ helpers = {
     	var response = {chat_id: msg.chat.id, text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
     	
     	this.callMethod("sendMessage",response, function(err, res) {
-    		var message_id = res.data.message_id;
-    		console.log(res);
-    		console.log(res.data);
+    		var message_id = res.data.result.message_id;
     		
     		var dbref = db.ref("helpmenu/"+msg.chat.id+"/"+uid);
     		dbref.set({message_id: message_id});

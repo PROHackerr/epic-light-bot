@@ -248,7 +248,7 @@ helpers = {
     			}
     			if(row.length != 0)
     				inlinekeyboard.push(row);
-    			inlinekeyboard.push(
+    			inlinekeyboard.push([
     					{
     						text: "Back to help menu",
     						callback_data: callbackstr + "outermenu"

@@ -66,7 +66,7 @@ helpers = {
         action: action
       };
       this.callMethod("sendChatAction", options);
-    }
+    },
 
     //sendMethod
     sendMessage: function(chatid, msg, reply_to) {

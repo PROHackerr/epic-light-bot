@@ -65,7 +65,8 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 	var options = {
 		chat_id: chat.id,
 		text: "warn("+warnlist.length+"/3) to "+helpers.getUserLink(user)+"\n\n<b>Reason:</b>"+reason,
-		reply_markup: {inline_keyboard: inlinekeyboard}
+		reply_markup: {inline_keyboard: inlinekeyboard},
+		parse_mode: 'html'
 	};
 	helpers.callMethod("sendMessage", options, function(err, res) {
 		if(err) {

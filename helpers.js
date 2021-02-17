@@ -87,7 +87,7 @@ helpers = {
     		[
           		{
             		text: "Basic",
-            		callback_data: "helpmenu,"+msg.chat.id+","+uniqueid+",basic";
+            		callback_data: "helpmenu,"+msg.chat.id+","+uniqueid+",basic"
           		},
           		{
             		text: "Advanced",

@@ -82,11 +82,12 @@ helpers = {
     
     generateHelpResponse: function(msg) {
     	var text = "This is the help command!";
+    	var uniqueid = Math.floor(Math.random()*10000)
     	var inlinekeyboard = [
     		[
           		{
             		text: "Basic",
-            		callback_data: "test"
+            		callback_data: "helpmenu,"+msg.chat.id+","+uniqueid+",basic";
           		},
           		{
             		text: "Advanced",
@@ -105,7 +106,13 @@ helpers = {
           ]
     	];
     	var response = {chat_id: msg.chat.id, text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
-    	return response;
+    	
+    	this.callMethod("sendMessage",response, function(err, res) {
+    		var message_id = res.data.message_id;
+    		
+    		var dbref = db.ref("helpmenu/"+msg.chat.id+"/"+uid);
+    		dbref.set({message_id: message_id});
+    	});
     }
 };
 

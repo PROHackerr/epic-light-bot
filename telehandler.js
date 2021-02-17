@@ -91,13 +91,31 @@ exports.handleQuery = async (query) => {
       var reply_to_message_id = Number(q[2]);
 
       db.ref("msgpasser/").set({chat_id: sendtochat, message_id: reply_to_message_id, cmd: q[0]});
-    }
-  }
 
-  await axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/answerCallbackQuery',
+  		await axios.post('https://api.telegram.org/'+BOT_API_TOKEN+'/answerCallbackQuery',
                   {callback_query_id: id, text: "Done! (maybe)"}).catch((e)=>{
               console.log(e);
             });
+    } else if(q[0] == "helpmenu") {
+    	var chatid = q[1];
+    	var uid = q[2];
+    	var menu = q[3];
+    	
+    	var dbref = db.ref("helpmenu/"+chatid+"/"+uid);
+    	var snapshot = await dbref.once('value');
+    	
+    	if(!snapshot.exists())
+    		return;
+    	
+    	var message_id = snapshot.val().message_id;
+    	
+    	var text = "inside basic";
+    	
+    	helpers.callMethod("editMessageText",{chat_id: chatid, message_id: message_id, text: text})
+    	
+    	;
+    }
+  }
  
 }
 
@@ -354,7 +372,6 @@ exports.handleMessage = async (msg) => {
     	return helpstr;
     } else if(cmd == "fakehelp") { //for checkin help
     	var response = helpers.generateHelpResponse(msg);
-    	helpers.callMethod("sendMessage",response);
     	return;
     } else if(cmd=='args') { //for debugging
       return args.join('\n');

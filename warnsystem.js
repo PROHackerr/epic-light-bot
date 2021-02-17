@@ -96,7 +96,7 @@ exports.removewarn = async function (user, chat, n) {
 	return {ok: true, res: "ok"};
 }
 
-exports.handleQuery = async function(userid, chatid, uid, cmd, args) {
+exports.handleQuery = async function(chatid, userid, uid, cmd, args) {
 	if(cmd == "rem") {
 		var dbref = db.ref("chats/"+chatid+"/warns/"+userid);
 		var wn = Number(args[0]);

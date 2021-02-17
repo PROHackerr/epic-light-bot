@@ -95,11 +95,11 @@ helpers = {
           			},
           			{
             			text: "Advanced",
-            			callback_data: "test"
+            			callback_data: "helpmenu,"+chatid+",u"+uid+",advanced"
           			},
           			{
             			text: "Services",
-            			callback_data: "test"
+            			callback_data: "helpmenu,"+chatid+",u"+uid+",services"
           			},
           	],
           	[

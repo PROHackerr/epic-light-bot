@@ -111,16 +111,18 @@ helpers = {
     		];
     		response.text = text;
     		response.reply_markup = {inline_keyboard:inlinekeyboard};
+    		if(!message_id) {
+    			this.callMethod("sendMessage",response, function(err, res) {
+    				var message_id = res.data.result.message_id;
+    				
+    				var dbref = db.ref("helpmenu/"+chatid+"/");
+    				var setobj = {};
+    				setobj[uid] = {message_id: message_id};
+    				dbref.set(setobj);
+    			});
+    			return;
+    		}
     		
-    		this.callMethod("sendMessage",response, function(err, res) {
-    			var message_id = res.data.result.message_id;
-    			
-    			var dbref = db.ref("helpmenu/"+chatid+"/");
-    			var setobj = {};
-    			setobj[uid] = {message_id: message_id};
-    			dbref.set(setobj);
-    		});
-    		return;
     	} else {
     		var callbackstr = "helpmenu,"+chatid+",m"+message_id+",";
     		if(menuname == "basic") {
@@ -136,6 +138,12 @@ helpers = {
             				callback_data: callbackstr+"groupadmin"
           				},
           			],
+    				[
+    					{
+    						text: "Back",
+    						callback_data: callbackstr + "outermenu"
+    					}
+    				],
     			];
     			response.text = text;
     			response.reply_markup = {inline_keyboard:inlinekeyboard};

@@ -131,6 +131,43 @@ helpers = {
     		
     	} else {
     		if(menuname == "basic") {
+    		
+    			
+    			var services = {
+    				"firstmsg":{
+    					name: "First Message",
+    					text: "Replies to the first message of a new user."
+    								+"\n\n<b>!firstmsg on</b> to start the service"
+    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message"
+    				},
+    				"hilight":{
+    					name: "Hi back!",
+    					text: "Replies to messages of the form: I'm X. with Hi X! I'm Light."
+    								+"\n\nIf you prefer to have the service disabled, you can put <b>!hilight off</b>"
+    				},
+    				"langblocker":{
+    					name: "LangBlocker",
+    					text: "Block certain languages or only allow a few languages."
+    								+"\n\n<b>!langblocker on</b> to start the service"
+    								+"\nYou can either allow only a few languages in your chat or you can allow all languages but block specific languages"
+    								+"\nTo allow only a few languages, put the command <b>!addlang langcode</b>.\ne.g. put the commands:\n!addlang en\n!addlang de\n"
+    								+"to allow only English and German languages in your chat, and block other languages. Use <b>!dellang langcode</b> to remove a certain language from this list.\n"
+    								+"\nSimilarly, you can use <b>!banlang langcode</b> to ban a few languages and allow all others.\ne.g. put the commands:\n!banlang en\n!banlang den\n"
+    								+"to ban English and German but allow all the other languages. Use <b>!unbanlang langcode</b> to remove a certain language from this list."
+    				},
+    				"delnsfw":{
+    					name: "Block NSFW",
+    					text: "Delete NSFW content"
+    								+"\n\n<b>!delnsfw on</b> to start the service"
+    								+"\nDeletes NSFW content and warns the user posting it. After 3 warns, a user is muted"
+    				},
+    				"aichat":{
+    					name: "AI Chat",
+    					text: "Want Light to talk with you? Just put <b>!aichat on</b>"
+    								+"\n\nLight uses the CoffeeHouse API to talk with you."
+    				},
+    			};
+    			
     			var text = "Some basic commands here";
     			var inlinekeyboard = [
     				[
@@ -195,8 +232,29 @@ helpers = {
     		} else if(menuname == "services") {
     			response.text = "<b>Services</b>"
     								+" Select one of the services to find out more about it.";
-    			var inlinekeyboard = [
-    				[
+    			var inlinekeyboard = [];
+    			var servs = services.keys();
+    			var rowlen = 3;
+    			var row = [];
+    			for(var i=0;i<servs.length;i++) {
+    				row.push({
+    						text: services[servs[i]],
+    						callback_data: callbackstr+"service_"+servs[i]
+    					})
+    				if(i%rowlen == 0) {
+    					inlinekeyboard.push(row);
+    					row = [];
+    				}
+    			}
+    			if(row.length != 0)
+    				inlinekeyboard.push(row);
+    			inlinekeyboard.push(
+    					{
+    						text: "Back to help menu",
+    						callback_data: callbackstr + "outermenu"
+    					}
+    				]);
+    			/*	[
     					{
     						text: "First Message",
     						callback_data: callbackstr + "service_firstmsg"
@@ -208,18 +266,10 @@ helpers = {
     						callback_data: callbackstr + "outermenu"
     					}
     				]
-    			];
+    			];*/
     			response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else if(menuname.startsWith("service_")) {
     			var serv = menuname.substring(8);
-    			var services = {
-    				"firstmsg":{
-    					name: "First Message",
-    					text: "Replies to the first message of a new user."
-    								+"\n\n<b>!firstmsg on</b> to start the service"
-    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message"
-    				},
-    			};
     			if(services[serv])
 	    			response.text = "<b>"+services[serv].name+"</b>\n"+services[serv].text;
 	    		else

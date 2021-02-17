@@ -80,21 +80,21 @@ helpers = {
       this.callMethod("sendMessage", options);
     },
     
-    generateHelpResponse: function() {
+    generateHelpResponse: function(msg) {
     	var text = "This is the help command!";
     	var inlinekeyboard = [
     		[
           		{
             		text: "Basic",
-            		callback_data: "replytochat,"+msg.chat.id+","+msg.message_id
+            		callback_data: "test"
           		},
           		{
             		text: "Advanced",
-            		callback_data: "replytochat,"+msg.chat.id+","+msg.message_id
+            		callback_data: "test"
           		},
           		{
             		text: "Services",
-            		callback_data: "replytochat,"+msg.chat.id+","+msg.message_id
+            		callback_data: "test"
           		},
           ],
           [

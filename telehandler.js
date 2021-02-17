@@ -7,6 +7,7 @@ var db = require('./db.js').db;
 var helpers = require('./helpers');
 var groupadmin_commands = require('./groupadmin_commands');
 var commands = groupadmin_commands;
+var warnsystem = require('./warnsystem');
 
 var capturemode = true;
 

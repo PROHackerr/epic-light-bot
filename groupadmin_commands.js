@@ -24,7 +24,7 @@ var commands = [
 			if(id)
 				user = {id: id};
 			else
-				user = reply_to_message.from;
+				user = msg.reply_to_message.from;
 			var chat = msg.chat;
 			warnsystem.addwarn(user, chat, reason, "mute");
 		}

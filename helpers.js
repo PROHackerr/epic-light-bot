@@ -157,7 +157,9 @@ helpers = {
     			response.text = "These are just some fun commands!\nReply to a friend's message with one of these commands.\n"
     							+"\n<b>!give</b> <i>something</i> - Give <i>something</i> to the person you reply"
     							+"\n<b>!hug</b> <i>message</i> - Hug the person you reply to and optionally show a message"
-    							+"\n<b>!scream</b> <i>message</i> - Scream out the message!";
+    							+"\n<b>!scream</b> <i>message</i> - Scream out the message!"
+    							+"\n<b>!hifi</b> <i>message</i> - Hifi the person you reply to and optionally show a message"
+    							+"\n<b>!slap</b> <i>message</i> - Slap the person you reply to and optionally show a message";
     			var inlinekeyboard = [
     				[
     					{

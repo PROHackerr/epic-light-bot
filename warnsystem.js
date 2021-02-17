@@ -84,7 +84,7 @@ exports.removewarn = async function (user, chat, n) {
 	var dbref = db.ref("chats/"+chat.id+"/warns/"+user.id);
 	var snapshot = await dbref.once("value");
 	if(!snapshot.exists() || snapshot.val().length == 0) {
-		return {err:"User already has zero warns");
+		return {err:"User already has zero warns"};
 	}
 	var warnlist = snapshot.val();
 	if(!n)

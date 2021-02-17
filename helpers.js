@@ -242,7 +242,7 @@ helpers = {
     			var row = [];
     			for(var i=0;i<servs.length;i++) {
     				row.push({
-    						text: services[servs[i]],
+    						text: services[servs[i]].name,
     						callback_data: callbackstr+"service_"+servs[i]
     					})
     				if(i%rowlen == 0) {

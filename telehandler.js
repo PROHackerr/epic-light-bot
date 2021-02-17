@@ -121,9 +121,9 @@ exports.handleQuery = async (query) => {
     	//var text = "inside basic";
     	response.message_id = message_id;
     	
-    	helpers.callMethod("editMessageText",response)
+    	helpers.callMethod("editMessageText",response);
     	
-    	;
+    	helpers.callMethod("answerCallbackQuery", {callback_query_id: id});
     }
   }
  

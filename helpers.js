@@ -199,7 +199,7 @@ helpers = {
     				[
     					{
     						text: "First Message",
-    						callback_data: callbackstr + "service_firstmg"
+    						callback_data: callbackstr + "service_firstmsg"
     					}
     				],
     				[

@@ -140,10 +140,11 @@ helpers = {
             			text: "Basic",
             			callback_data: callbackstr+"basic"
           			},
+          			/*TODO: add this part and put pinggroups thing in it and add info about deleting whisper bot
           			{
             			text: "Advanced",
             			callback_data: callbackstr+"advanced"
-          			},
+          			},*/
           			{
             			text: "Services",
             			callback_data: callbackstr+"services"
@@ -261,19 +262,6 @@ helpers = {
     						callback_data: callbackstr + "outermenu"
     					}
     				]);
-    			/*	[
-    					{
-    						text: "First Message",
-    						callback_data: callbackstr + "service_firstmsg"
-    					}
-    				],
-    				[
-    					{
-    						text: "Back to help menu",
-    						callback_data: callbackstr + "outermenu"
-    					}
-    				]
-    			];*/
     			response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else if(menuname.startsWith("service_")) {
     			var serv = menuname.substring(8);

@@ -168,7 +168,7 @@ helpers = {
     			];
     			response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else if(menuname == "groupadmin") {
-    			response.text = "[WIP]You can use the following commands for group administration stuff:"
+    			response.text = "[WIP]You can use the following commands for basic group administration stuff.\nSee services for more."
     			                +"\n<b>warn</b> <i>@/username/id</i> <i>reason</i> - Warn a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
     			                +"\n<b>mute</b> <i>@/username/id</i> <i>reason</i> - Mute a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
     			                +"\n<b>tmute</b> <i>@/username/id</i> <i>reason</i> - Temporarily mute a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
@@ -176,6 +176,12 @@ helpers = {
     			                +"\n<b>tban</b> <i>@/username/id</i> <i>reason</i> - Temporarily ban a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
     			                +"\n[WIP]<b>report</b> <i>reason</i> - Non-admins can reply to a user's message with this command to report them to the administrators.";
     	  		var inlinekeyboard = [
+    	  			[
+    	  				{
+    	  					text: "Services",
+    	  					callback_data: callbackstr + "services"
+    	  				}
+    	  			],
     	  			[
     	  				{
     	  					text: "Back",

@@ -4,6 +4,7 @@ const photoHandler = require('./photohandler');
 const aichat = require('./aichat');
 const langblocker = require('./langblocker');
 var db = require('./db.js').db;
+var helpers = require('./helpers');
 
 var capturemode = true;
 
@@ -306,6 +307,7 @@ exports.handleMessage = async (msg) => {
             var dbref = db.ref("chats/"+msg.chat.id+"/isaichat");
             var snapshot = await dbref.once('value');
             if( snapshot.val() != 'off' || msg.chat.type == "private") { //default is on
+                helpers.sendAction(msg.chat.id, "typing");
                 return await aichat.replyto(msg);
             }
     }

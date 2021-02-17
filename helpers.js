@@ -59,6 +59,14 @@ helpers = {
         	cb(err, null);
       });
     },
+    
+    sendAction: async function(chatid, action) {
+      var options = {
+        chat_id: chatid,
+        action: action
+      };
+      this.callMethod("sendChatAction", options);
+    }
 
     //sendMethod
     sendMessage: function(chatid, msg, reply_to) {

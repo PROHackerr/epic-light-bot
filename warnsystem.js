@@ -52,7 +52,6 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 	var uid = Math.random()*1000;
 	var warn = {reason: reason};
 	
-	dbref.set(warnlist);
 	var inlinekeyboard = [
 		[
 			{
@@ -74,6 +73,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		}
 		warn.message_id = res.data.result.message_id;
 		warnlist.push(warn);
+		dbref.set(warnlist);
 	});
 	
 }

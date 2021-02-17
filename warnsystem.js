@@ -56,7 +56,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		[
 			{
 				text: "Remove warn",
-				callback_data: "warnsystem,"+chat.id+","+user.id+","+uid+",rem,"+(warnlist.length-1)
+				callback_data: "warnsystem,"+chat.id+","+user.id+","+uid+",rem,"+(warnlist.length)
 			}
 		]
 	];
@@ -111,7 +111,7 @@ exports.handleQuery = async function(chatid, userid, uid, cmd, args) {
 		var message_id = warn.message_id;
 		var res = await exports.removewarn({id: userid},{id: chatid}, wn); //maybe just directly remove instead of this call
 		if(res.ok) {
-			this.callMethod("editMessageText", {chat_id: chatid, message_id: message_id, text: "<i>warn removed</i>\nReason:"+warn.reason, parse_mode: 'html'});
+			helpers.callMethod("editMessageText", {chat_id: chatid, message_id: message_id, text: "<i>warn removed</i>\nReason:"+warn.reason, parse_mode: 'html'});
 			return {msg: "Done!"};
 		}
 		return {msg: "Unknown error occured. Couldn't remove the warning."};

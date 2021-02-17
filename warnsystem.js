@@ -49,7 +49,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 			return;
 		}
 	}
-	var uid = Math.randon()*1000;
+	var uid = Math.random()*1000;
 	var warn = {reason: reason};
 	
 	dbref.set(warnlist);

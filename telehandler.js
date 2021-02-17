@@ -130,8 +130,8 @@ exports.handleQuery = async (query) => {
     } else if(q[0]=="warnsystem") {
     	if(q.length < 6)
     		return;
-    	warnsystem.handleQuery(q[1],q[2],q[3],q[4],q[5]);
-    	helpers.callMethod("answerCallbackQuery", {callback_query_id: id});
+    	var res = await warnsystem.handleQuery(q[1],q[2],q[3],q[4],q[5]);
+    	helpers.callMethod("answerCallbackQuery", {text: res.msg,callback_query_id: id});
     }
   }
  

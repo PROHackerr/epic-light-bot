@@ -102,15 +102,17 @@ exports.handleQuery = async function(userid, chatid, uid, cmd, args) {
 		var wn = Number(args[0]);
 		var snapshot = await dbref.once('value');
 		if(!snapshot.exists())
-			return;
+			return {msg:"Warning doesn't exist."};
 		var warnlist = snapshot.val();
 		if(wn >= warnlist.length)
-			return;
+			return {msg: "Warning already removed"};
 		var warn = warnlist[wn];
 		var message_id = warn.message_id;
 		var res = await exports.removewarn({id: userid},{id: chatid}, wn); //maybe just directly remove instead of this call
 		if(res.ok) {
 			this.callMethod("editMessageText", {chat_id: chatid, message_id: message_id, text: "<i>warn removed</i>\nReason:"+warn.reason, parse_mode: 'html'});
+			return {msg: "Done!"};
 		}
+		return {msg: "Unknown error occured. Couldn't remove the warning."};
 	}
 }

@@ -245,7 +245,7 @@ helpers = {
     						text: services[servs[i]].name,
     						callback_data: callbackstr+"service_"+servs[i]
     					})
-    				if(i%rowlen == 0) {
+    				if((i+1)%rowlen == 0) {
     					inlinekeyboard.push(row);
     					row = [];
     				}

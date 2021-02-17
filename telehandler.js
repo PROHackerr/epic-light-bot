@@ -1140,7 +1140,7 @@ async function captureChatData(chat_id) {
 
 async function getExecStatus(command, args, msg) {
 	var stat = {};
-	if(commad.args_req > args.length-1) {
+	if(command.args_req > args.length-1) {
 		stat.err = "Not enough arguments provided to the command.\nUsage: "+args[0][0]+command.usage;
 	} else if(command.admin_req && !(await isAdminMessage(msg)) ) {
 		stat.err = adminpermerror;

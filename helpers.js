@@ -192,6 +192,43 @@ helpers = {
     	  			],
     	  		];
     	  		response.reply_markup = {inline_keyboard: inlinekeyboard};
+    		} else if(menuname == "services") {
+    			response.text = "<b>Services</b>"
+    								+" Select one of the services to find out more about it.";
+    			var inlinekeyboard = [
+    				[
+    					{
+    						text: "First Message",
+    						callback_data: callbackstr + "service_firstmg"
+    					}
+    				],
+    				[
+    					{
+    						text: "Back to help menu",
+    						callback_data: callbackstr + "outermenu"
+    					}
+    				]
+    			];
+    			response.reply_markup = {inline_keyboard: inlinekeyboard};
+    		} else if(menuname == "service_firstmsg") {
+    			response.text = "<b>First message</b>"
+    								+"\nReplies to the first message of a new user."
+    								+"\n\n<b>!firstmsg on</b> to start the service"
+    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message";
+    			var inlinekeyboard = [
+    				[
+    					{
+    						text: "Back to services",
+    						callback_data: callbackstr+"services"
+    					},
+    					{
+    						text: "Back to main menu",
+    						callback_data: callbackstr+"outermenu"
+    					}
+    					
+    				],
+    			];
+    			response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else {
     			response.text = "You're in an unimplemented zone omg!";
     		}

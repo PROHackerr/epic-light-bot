@@ -278,7 +278,7 @@ helpers = {
     		} else if(menuname.startsWith("service_")) {
     			var serv = menuname.substring(8);
     			if(services[serv])
-	    			response.text = "<b>"+services[serv].name+"</b>\n(Light is "+(services[serv].adminreq?"":"<b>not</b>")+"required to be admin for this service)"+services[serv].text;
+	    			response.text = "<b>"+services[serv].name+"</b>\n(Light is "+(services[serv].adminreq?"":"<b>not</b> ")+"required to be admin for this service)\n"+services[serv].text;
 	    		else
 	    			response.text = "No such service. That's weird.";
     			var inlinekeyboard = [

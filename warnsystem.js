@@ -49,19 +49,31 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 			return;
 		}
 	}
-	warnlist.push({reason: reason});
+	var uid = Math.randon()*1000;
+	var warn = {reason: reason};
 	
 	dbref.set(warnlist);
-	
 	var inlinekeyboard = [
 		[
 			{
 				text: "Remove warn",
-				callback_data: "warnsystem,"+chat.id+","+user.id+","+warnlist.length-1
+				callback_data: "warnsystem,"+chat.id+","+user.id+","+uid+","+(warnlist.length-1)
 			}
 		]
 	];
 	//send message about the currect warn with reason
-	helpers.sendMessage(chat.id, "warn("+warnlist.length+"/3) to "+helpers.getUserLink(user)+"\n\n<b>Reason:</b>"+reason,null, inlinekeyboard);
+	var options = {
+		chat_id: chat.id,
+		text: "warn("+warnlist.length+"/3) to "+helpers.getUserLink(user)+"\n\n<b>Reason:</b>"+reason,
+		reply_markup: {inline_keyboard: inlinekeyboard}
+	};
+	helpers.callMethod("sendMessage", options, function(err, res) {
+		if(err) {
+			return;
+		}
+		warn.message_id = res.data.result.message_id;
+		warnlist.push(warn);
+	});
+	
 }
 

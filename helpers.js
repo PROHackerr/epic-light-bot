@@ -71,7 +71,7 @@ helpers = {
     },
 
     //sendMethod
-    sendMessage: function(chatid, msg, reply_to) {
+    sendMessage: function(chatid, msg, reply_to, inlinekeyboard) {
       var options = {
         chat_id:chatid,
         text: msg,
@@ -79,6 +79,8 @@ helpers = {
       };
       if(reply_to)
         options.reply_to_message_id = reply_to;
+      if(inlinekeyboard)
+      	options.reply_markup = {inline_keyboard: inlinekeyboard};
       this.callMethod("sendMessage", options);
     },
     

@@ -53,7 +53,15 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 	
 	dbref.set(warnlist);
 	
+	var inlinekeyboard = [
+		[
+			{
+				text: "Remove warn",
+				callback_data: "warnsystem,"+chat.id+","+user.id+","+warnlist.length-1
+			}
+		]
+	];
 	//send message about the currect warn with reason
-	helpers.sendMessage(chat.id, "warn("+warnlist.length+"/3) to "+helpers.getUserLink(user)+"\n\n<b>Reason:</b>"+reason);
+	helpers.sendMessage(chat.id, "warn("+warnlist.length+"/3) to "+helpers.getUserLink(user)+"\n\n<b>Reason:</b>"+reason,null, inlinekeyboard);
 }
 

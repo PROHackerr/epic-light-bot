@@ -83,23 +83,29 @@ helpers = {
     
     generateHelpResponse: function(chatid, menuname, message_id) {
     
+    	var callbackstr = "helpmenu,"+chatid;
+    	if(message_id)
+    		callbackstr+=",m"+message_id+",";
+    	else {
+    		var uid = Math.floor(Math.random()*10000)
+    		callbackstr += ",u"+uid+",";
+    	}
     	var response = {chat_id: chatid, parse_mode: "html"};
     	if(menuname == "outermenu") {
     		var text = "This is the help command!";
-    		var uid = Math.floor(Math.random()*10000)
     		var inlinekeyboard = [
     			[
           			{
             			text: "Basic",
-            			callback_data: "helpmenu,"+chatid+",u"+uid+",basic"
+            			callback_data: callbackstr+"basic"
           			},
           			{
             			text: "Advanced",
-            			callback_data: "helpmenu,"+chatid+",u"+uid+",advanced"
+            			callback_data: callbackstr+"advanced"
           			},
           			{
             			text: "Services",
-            			callback_data: "helpmenu,"+chatid+",u"+uid+",services"
+            			callback_data: callbackstr+"services"
           			},
           	],
           	[
@@ -124,7 +130,6 @@ helpers = {
     		}
     		
     	} else {
-    		var callbackstr = "helpmenu,"+chatid+",m"+message_id+",";
     		if(menuname == "basic") {
     			var text = "Some basic commands here";
     			var inlinekeyboard = [

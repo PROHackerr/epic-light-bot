@@ -99,7 +99,8 @@ helpers = {
     					name: "First Message",
     					text: "Replies to the first message of a new user."
     								+"\n\n<b>!firstmsg on</b> to start the service"
-    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message"
+    								+"\n<b>!setfirstmsg \"Welcome %NAME%!\nTell us about yourself.\"</b> - To customize the message",
+    					adminreq: false
     				},
     				"hilight":{
     					name: "Hi back!",
@@ -114,13 +115,15 @@ helpers = {
     								+"\nTo allow only a few languages, put the command <b>!addlang langcode</b>.\ne.g. put the commands:\n!addlang en\n!addlang de\n"
     								+"to allow only English and German languages in your chat, and block other languages. Use <b>!dellang langcode</b> to remove a certain language from this list.\n"
     								+"\nSimilarly, you can use <b>!banlang langcode</b> to ban a few languages and allow all others.\ne.g. put the commands:\n!banlang en\n!banlang den\n"
-    								+"to ban English and German but allow all the other languages. Use <b>!unbanlang langcode</b> to remove a certain language from this list."
+    								+"to ban English and German but allow all the other languages. Use <b>!unbanlang langcode</b> to remove a certain language from this list.",
+    					adminreq: true
     				},
     				"delnsfw":{
     					name: "Block NSFW",
     					text: "Delete NSFW content"
     								+"\n\n<b>!delnsfw on</b> to start the service"
-    								+"\nDeletes NSFW content and warns the user posting it. After 3 warns, a user is muted"
+    								+"\nDeletes NSFW content and warns the user posting it. After 3 warns, a user is muted",
+    					adminreq: true
     				},
     				"aichat":{
     					name: "AI Chat",
@@ -275,7 +278,7 @@ helpers = {
     		} else if(menuname.startsWith("service_")) {
     			var serv = menuname.substring(8);
     			if(services[serv])
-	    			response.text = "<b>"+services[serv].name+"</b>\n"+services[serv].text;
+	    			response.text = "<b>"+services[serv].name+"</b>\n(Light is "+(services[serv].adminreq?"":"<b>not</b>")+"required to be admin for this service)"+services[serv].text;
 	    		else
 	    			response.text = "No such service. That's weird.";
     			var inlinekeyboard = [

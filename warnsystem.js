@@ -98,7 +98,7 @@ exports.removewarn = async function (user, chat, n) {
 
 exports.handleQuery = async function(userid, chatid, uid, cmd, args) {
 	if(cmd == "rem") {
-		var dbref = db.ref("chats/"+chat.id+"/warns/"+user.id);
+		var dbref = db.ref("chats/"+chatid+"/warns/"+userid);
 		var wn = Number(args[0]);
 		var snapshot = await dbref.once('value');
 		if(!snapshot.exists())

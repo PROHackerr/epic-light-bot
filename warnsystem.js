@@ -56,7 +56,7 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		[
 			{
 				text: "Remove warn",
-				callback_data: "warnsystem,"+chat.id+","+user.id+","+uid+","+(warnlist.length-1)
+				callback_data: "warnsystem,"+chat.id+","+user.id+","+uid+",rem,"+(warnlist.length-1)
 			}
 		]
 	];
@@ -74,18 +74,43 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		warn.message_id = res.data.result.message_id;
 		warnlist.push(warn);
 		dbref.set(warnlist);
+		/*var dbref = db.ref("warnsystem/warnmessages/"+msg.chat.id);
+		var sobj = {};
+		sobj[uid] = {message_id: };*/
 	});	
 }
 
-exports.removewarn(user, chat) {
+exports.removewarn = async function (user, chat, n) {
 	var dbref = db.ref("chats/"+chat.id+"/warns/"+user.id);
 	var snapshot = await dbref.once("value");
 	if(!snapshot.exists() || snapshot.val().length == 0) {
 		return {err:"User already has zero warns");
 	}
 	var warnlist = snapshot.val();
-	warnlist.pop();
+	if(!n)
+		warnlist.pop();
+	else
+		warnlist.splice(n, 1);
+	
 	dbref.set(warnlist);
 	return {ok: true, res: "ok"};
 }
 
+exports.handleQuery = async function(userid, chatid, uid, cmd, args) {
+	if(cmd == "rem") {
+		var dbref = db.ref("chats/"+chat.id+"/warns/"+user.id);
+		var wn = Number(args[0]);
+		var snapshot = await dbref.once('value');
+		if(!snapshot.exists())
+			return;
+		var warnlist = snapshot.val();
+		if(wn >= warnlist.length)
+			return;
+		var warn = warnlist[wn];
+		var message_id = warn.message_id;
+		var res = await exports.removewarn({id: userid},{id: chatid}, wn); //maybe just directly remove instead of this call
+		if(res.ok) {
+			this.callMethod("editMessageText", {chat_id: chatid, message_id: message_id, text: "<i>warn removed</i>\nReason:"+warn.reason, parse_mode: 'html'});
+		}
+	}
+}

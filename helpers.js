@@ -17,7 +17,8 @@ helpers = {
     getUserLink: function(user) {
         var text = this.getUserFullName(user);
         var id = user.id;
-        console.log("Text"+text);
+        if(text.length == 0)
+        	text = ""+id;
     //MarkdownV2 syntax:  return "["+text+"](tg://user?id="+id+")";
         return "<a href='tg://user?id="+id+"'>"+text+"</a>";
     },

@@ -74,7 +74,18 @@ exports.addwarn = async function(user, chat, reason, warn3action) {
 		warn.message_id = res.data.result.message_id;
 		warnlist.push(warn);
 		dbref.set(warnlist);
-	});
-	
+	});	
+}
+
+exports.removewarn(user, chat) {
+	var dbref = db.ref("chats/"+chat.id+"/warns/"+user.id);
+	var snapshot = await dbref.once("value");
+	if(!snapshot.exists() || snapshot.val().length == 0) {
+		return {err:"User already has zero warns");
+	}
+	var warnlist = snapshot.val();
+	warnlist.pop();
+	dbref.set(warnlist);
+	return {ok: true, res: "ok"};
 }
 

@@ -353,7 +353,7 @@ exports.handleMessage = async (msg) => {
     if(cmd == "help") {
     	return helpstr;
     } else if(cmd == "fakehelp") { //for checkin help
-    	var response = helpers.generateHelpResponse();
+    	var response = helpers.generateHelpResponse(msg);
     	helpers.callMethod("sendMessage",response);
     	return;
     } else if(cmd=='args') { //for debugging

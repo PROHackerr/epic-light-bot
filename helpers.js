@@ -168,7 +168,22 @@ helpers = {
     			];
     			response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else if(menuname == "groupadmin") {
-    			response.text = "You're in pinggroups menu!"
+    			response.text = "[WIP]You can use the following commands for group administration stuff:"
+    			                +"\n<b>warn</b> <i>@/username/id</i> <i>reason</i> - Warn a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
+    			                +"\n<b>mute</b> <i>@/username/id</i> <i>reason</i> - Mute a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
+    			                +"\n<b>tmute</b> <i>@/username/id</i> <i>reason</i> - Temporarily mute a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
+    			                +"\n<b>ban</b> <i>@/username/id</i> <i>reason</i> - Ban a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
+    			                +"\n<b>tban</b> <i>@/username/id</i> <i>reason</i> - Temporarily ban a chat member of the username/id specified. You can also reply to a user's message with this command instead of specifying the username"
+    			                +"\n[WIP]<b>report</b> <i>reason</i> - Non-admins can reply to a user's message with this command to report them to the administrators.";
+    	  		var inlinekeyboard = [
+    	  			[
+    	  				{
+    	  					text: "Back",
+    	  					callback_data: callbackstr + "basic"
+    	  				}
+    	  			],
+    	  		];
+    	  		response.reply_markup = {inline_keyboard: inlinekeyboard};
     		} else {
     			response.text = "You're in an unimplemented zone omg!";
     		}

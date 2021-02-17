@@ -104,6 +104,7 @@ exports.handleQuery = async function(chatid, userid, uid, cmd, args) {
 		if(!snapshot.exists())
 			return {msg:"Warning doesn't exist."};
 		var warnlist = snapshot.val();
+		console.log(wn,"list",warnlist);
 		if(wn >= warnlist.length)
 			return {msg: "Warning already removed"};
 		var warn = warnlist[wn];

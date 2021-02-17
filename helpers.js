@@ -83,12 +83,12 @@ helpers = {
     
     generateHelpResponse: function(msg) {
     	var text = "This is the help command!";
-    	var uniqueid = Math.floor(Math.random()*10000)
+    	var uid = Math.floor(Math.random()*10000)
     	var inlinekeyboard = [
     		[
           		{
             		text: "Basic",
-            		callback_data: "helpmenu,"+msg.chat.id+","+uniqueid+",basic"
+            		callback_data: "helpmenu,"+msg.chat.id+","+uid+",basic"
           		},
           		{
             		text: "Advanced",

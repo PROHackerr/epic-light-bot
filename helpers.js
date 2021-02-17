@@ -137,7 +137,11 @@ helpers = {
     		response.reply_markup = {inline_keyboard:inlinekeyboard};
     		
     	} else if(menuname == "fun") {
-    		response.text = text;
+    		response.text = "You're in fun menu!";
+    	} else if(menuname == "pinggroups") {
+    		response.text = "You're in pinggroups menu!"
+    	} else {
+    		response.text = "You're in an unimplemented zone omg!";
     	}
     	
     	return response;

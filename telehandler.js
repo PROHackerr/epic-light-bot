@@ -371,7 +371,7 @@ exports.handleMessage = async (msg) => {
     if(cmd == "help") {
     	return helpstr;
     } else if(cmd == "fakehelp") { //for checkin help
-    	var response = helpers.generateHelpResponse(msg);
+    	var response = helpers.generateHelpResponse(msg,"outermenu");
     	return;
     } else if(cmd=='args') { //for debugging
       return args.join('\n');

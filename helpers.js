@@ -81,39 +81,41 @@ helpers = {
       this.callMethod("sendMessage", options);
     },
     
-    generateHelpResponse: function(msg) {
-    	var text = "This is the help command!";
-    	var uid = Math.floor(Math.random()*10000)
-    	var inlinekeyboard = [
-    		[
-          		{
-            		text: "Basic",
-            		callback_data: "helpmenu,"+msg.chat.id+","+uid+",basic"
-          		},
-          		{
-            		text: "Advanced",
-            		callback_data: "test"
-          		},
-          		{
-            		text: "Services",
-            		callback_data: "test"
-          		},
-          ],
-          [
-          		{
-            		text: "See the code",
-            		url: "https://github.com/maheshbansod/epic-light-bot"
-          		},
-          ]
-    	];
-    	var response = {chat_id: msg.chat.id, text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
-    	
-    	this.callMethod("sendMessage",response, function(err, res) {
-    		var message_id = res.data.result.message_id;
+    generateHelpResponse: function(msg, menuname) {
+    	if(menuname == "outermenu") {
+    		var text = "This is the help command!";
+    		var uid = Math.floor(Math.random()*10000)
+    		var inlinekeyboard = [
+    			[
+          			{
+            			text: "Basic",
+            			callback_data: "helpmenu,"+msg.chat.id+","+uid+",basic"
+          			},
+          			{
+            			text: "Advanced",
+            			callback_data: "test"
+          			},
+          			{
+            			text: "Services",
+            			callback_data: "test"
+          			},
+          	],
+          	[
+          			{
+            			text: "See the code",
+            			url: "https://github.com/maheshbansod/epic-light-bot"
+          			},
+          	]
+    		];
+    		var response = {chat_id: msg.chat.id, text,reply_markup: {inline_keyboard:inlinekeyboard}, parse_mode: "html"};
     		
-    		var dbref = db.ref("helpmenu/"+msg.chat.id+"/"+uid);
-    		dbref.set({message_id: message_id});
-    	});
+    		this.callMethod("sendMessage",response, function(err, res) {
+    			var message_id = res.data.result.message_id;
+    			
+    			var dbref = db.ref("helpmenu/"+msg.chat.id+"/"+uid);
+    			dbref.set({message_id: message_id});
+    		});
+    	}
     }
 };
 

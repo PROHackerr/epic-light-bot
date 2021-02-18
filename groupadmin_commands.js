@@ -1,5 +1,6 @@
 
 const warnsystem = require('./warnsystem');
+const helpers = require('./helpers');
 
 var commands = {
 
@@ -8,8 +9,8 @@ var commands = {
 		args_req: 0,
 		admin_req: true,
 		execute: (args, msg) => {
-			performAdminAction(args, msg, "mute", function (user, chat, reason, action) {
-				warnsystem.addwarn(user, chat, reason, action);
+			performAdminAction(args, msg, "warn", function (user, chat, reason, action) {
+				warnsystem.addwarn(user, chat, reason, "mute");
 			});
 		}
 	},
@@ -19,7 +20,7 @@ var commands = {
 		admin_req: true,
 		execute: (args, msg) => {
 			performAdminAction(args, msg, "mute", function (user, chat, reason, action) {
-				;
+				warnsystem.mute(user, chat, reason, action);
 			});
 		}
 	}

@@ -74,9 +74,6 @@ exports.addwarn = async function (user, chat, reason, warn3action) {
 		warn.message_id = res.data.result.message_id;
 		warnlist.push(warn);
 		dbref.set(warnlist);
-		/*var dbref = db.ref("warnsystem/warnmessages/"+msg.chat.id);
-		var sobj = {};
-		sobj[uid] = {message_id: };*/
 	});
 }
 
@@ -94,6 +91,55 @@ exports.removewarn = async function (user, chat, n) {
 
 	dbref.set(warnlist);
 	return { ok: true, res: "ok" };
+}
+
+exports.mute = async function (user, chat, reason, until_date) {
+
+	if (!reason)
+		reason = "No reason stated";
+
+	var permissions = {
+		can_send_messages: false,
+		can_send_media_messages: false,
+		can_send_polls: false,
+		can_send_other_messages: false,
+		can_add_web_page_previews: false,
+		can_change_info: false,
+		can_invite_users: false,
+		can_pin_messages: false,
+	};
+	var h = 3; //mute for 'h' hours . TODO: parse until_date
+	message += " for " + h + " hour(s).\n";
+	var until_date = ((new Date()).getTime() + h * 60 * 60 * 1000) / 1000;
+	helpers.callMethod("restrictChatMember", { chat_id: chat.id, user_id: user.id, permissions, until_date });
+
+
+	var uid = Math.random() * 1000;
+	var inlinekeyboard = [
+		[
+			{
+				text: "Unmute",
+				callback_data: "warnsystem," + chat.id + "," + user.id + "," + uid + ",unmute," + (warnlist.length)
+			}
+		]
+	];
+	var timestr = "for " + h + " hours"; //TODO: handle cases forever and other time units
+	var options = {
+		chat_id: chat.id,
+		text: "User " + helpers.getUserLink(user) + " muted " + timestr + "\n\n<b>Reason:</b>" + reason,
+		reply_markup: { inline_keyboard: inlinekeyboard },
+		parse_mode: 'html'
+	};
+	helpers.callMethod("sendMessage", options, function (err, res) {
+		if (err) {
+			return;
+		}
+		var message_id = res.data.result.message_id;
+		var dbref = db.ref("/warnsystem/" + chat.id + "/" + user.id);
+		var sobj = {};
+		sobj[uid] = { message_id: message_id };
+		dbref.set(sobj);
+	})
 }
 
 exports.handleQuery = async function (chatid, userid, uid, cmd, args) {

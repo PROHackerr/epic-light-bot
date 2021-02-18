@@ -49,7 +49,7 @@ exports.addwarn = async function (user, chat, reason, warn3action) {
 			return;
 		}
 	}
-	var uid = Math.random() * 1000;
+	var uid = Math.floor(Math.random() * 1000);
 	var warn = { reason: reason };
 
 	var inlinekeyboard = [
@@ -113,7 +113,7 @@ exports.mute = async function (user, chat, reason, until_date) {
 	helpers.callMethod("restrictChatMember", { chat_id: chat.id, user_id: user.id, permissions, until_date });
 
 
-	var uid = Math.random() * 1000;
+	var uid = Math.floor(Math.random() * 1000);
 	var inlinekeyboard = [
 		[
 			{

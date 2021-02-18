@@ -1,9 +1,9 @@
 
 const warnsystem = require('./warnsystem');
 
-var commands = [
-	{
-		name: "warn",
+var commands = {
+	
+	"warn":{
 		usage: "warn [id] [reason]",
 		args_req: 0,
 		admin_req: true,
@@ -29,6 +29,6 @@ var commands = [
 			warnsystem.addwarn(user, chat, reason, "mute");
 		}
 	}
-];
+};
 
 module.exports = commands;

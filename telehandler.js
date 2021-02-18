@@ -6,7 +6,7 @@ const langblocker = require('./langblocker');
 var db = require('./db.js').db;
 var helpers = require('./helpers');
 var groupadmin_commands = require('./groupadmin_commands');
-var commands = groupadmin_commands;
+var commands = {...groupadmin_commands};
 var warnsystem = require('./warnsystem');
 
 var capturemode = true;
@@ -272,9 +272,10 @@ exports.handleMessage = async (msg) => {
     	handleQuotesInArgs(args);
     	var cmd = args[0].slice(1);
     	var command = 0;
-		for(var i=0;i<commands.length;i++) {
-			if(commands[i].name == cmd) {
-				command = commands[i];
+      var cmdnames = Object.keys(commands);
+		for(var i=0;i<cmdnames.length;i++) {
+			if(cmdnames[i] == cmd) {
+				command = commands[cmdnames[i]];
 				break;
 			}
 		}

@@ -131,7 +131,8 @@ exports.handleQuery = async (query) => {
       if (q.length < 6)
         return;
       var res = await warnsystem.handleQuery(q[1], q[2], q[3], q[4], q.slice(5));
-      helpers.callMethod("answerCallbackQuery", { text: res.msg, callback_query_id: id });
+      if (res.msg)
+        helpers.callMethod("answerCallbackQuery", { text: res.msg, callback_query_id: id });
     }
   }
 

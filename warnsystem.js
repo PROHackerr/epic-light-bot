@@ -118,7 +118,7 @@ exports.mute = async function (user, chat, reason, until_date) {
 		[
 			{
 				text: "Unmute",
-				callback_data: "warnsystem," + chat.id + "," + user.id + "," + uid + ",unmute," + (warnlist.length)
+				callback_data: "warnsystem," + chat.id + "," + user.id + "," + uid + ",unmute,0"
 			}
 		]
 	];

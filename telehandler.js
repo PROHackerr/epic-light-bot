@@ -410,9 +410,7 @@ exports.handleMessage = async (msg) => {
     var args = text.split(' ');
     handleQuotesInArgs(args);
     var cmd = args[0].slice(1);
-    if (cmd == "help") {
-      return helpstr;
-    } else if (cmd == "fakehelp") { //for checkin help
+    if (cmd == "help") { //new help system!
       var response = helpers.generateHelpResponse(msg.chat.id, "outermenu");
       return;
     } else if (cmd == 'args') { //for debugging

@@ -109,7 +109,6 @@ exports.mute = async function (user, chat, reason, until_date) {
 		can_pin_messages: false,
 	};
 	var h = 3; //mute for 'h' hours . TODO: parse until_date
-	message += " for " + h + " hour(s).\n";
 	var until_date = ((new Date()).getTime() + h * 60 * 60 * 1000) / 1000;
 	helpers.callMethod("restrictChatMember", { chat_id: chat.id, user_id: user.id, permissions, until_date });
 
